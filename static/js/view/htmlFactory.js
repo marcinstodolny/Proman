@@ -22,12 +22,37 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board" data-board-id=${board.id}>${board.title}</div>
-                <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                <section class="board" data-board-id=${board.id}>
+                    <div class="board-header"><span class="board-title">${board.title}</span>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class ="board-columns">
+                        <div class="board-column">
+                            <div class="board-column-title">{board.status[0]}New</div>
+                            <div class="board-column-content" data-column-id="board${board.id}_column{board.status[1]}"></div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">{board.status[1]}In Progress</div>
+                            <div class="board-column-content" data-column-id="board${board.id}_column{board.status[2]}"></div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">{board.status[2]}Testing</div>
+                            <div class="board-column-content" data-column-id="board${board.id}_column{board.status[3]}"></div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">{board.status[3]}Done</div>
+                            <div class="board-column-content" data-column-id="board${board.id}_column{board.status[4]}"></div>
+                        </div>
+                    </div>
+                </section>
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}">
+                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                <div class="card-title">${card.title}</div>
+            </div>`;
 }
 

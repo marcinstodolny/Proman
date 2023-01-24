@@ -11,7 +11,7 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
+                `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
             );
