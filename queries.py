@@ -84,3 +84,12 @@ def get_board_title(board_id):
         WHERE id = %(board_id)s
         """
         , {'b_id': board_id})
+
+
+def create_new_board(board_title):
+    return data_manager.execute_select(
+        """
+        INSERT INTO boards (title)
+        VALUES (%(title)s)
+        """
+        , {"title": board_title})
