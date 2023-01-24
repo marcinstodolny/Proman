@@ -6,6 +6,7 @@ import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+app.secret_key = b'DevTeamMDM'
 load_dotenv()
 
 

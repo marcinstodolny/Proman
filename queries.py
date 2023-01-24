@@ -84,3 +84,32 @@ def create_new_board(board_title):
         VALUES (%(title)s)
         """
         , {"title": board_title})
+
+
+def is_user_exist(username):
+    return data_manager.execute_select(
+        """
+        SELECT username
+        FROM users
+        WHERE username = (%(username)s)
+        """
+        , {"username": username})
+
+
+def insert_new_user(username, password, time):
+    return data_manager.execute_select(
+        """
+        INSERT INTO users (username, password, registration_date)
+        VALUES (%(username)s, %(password)s, %(time)s)
+        """
+        , {"username": username, "password": password, "time": time})
+
+
+def get_user_password(username):
+    return data_manager.execute_select(
+        """
+            SELECT password
+            FROM users
+            WHERE username = %(username)s
+        """
+        , {"username": username})
