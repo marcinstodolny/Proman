@@ -4,4 +4,4 @@ __pycache__
 venv
 .swp
 data_manager.py
-.env.template
+.env
