@@ -20,6 +20,14 @@ export let boardsManager = {
 };
 
 function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
+    const boardId = checkChildren(clickEvent.target);
     cardsManager.loadCards(boardId);
+}
+
+function checkChildren(target) {
+    if (target.children.length > 0){
+        return target.dataset.boardId;
+    } else {
+        return target.parentElement.dataset.boardId;
+    }
 }
