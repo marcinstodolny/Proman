@@ -59,4 +59,19 @@ def rename_card(card_id, title):
     return renamed_card
 
 
+def get_statuses():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM statuses
+        ;
+        """
+    )
 
+
+def get_board_title(board_id):
+    return data_manager.execute_select(
+        """
+        SELECT title FROM statuses
+        WHERE id = %(board_id)s
+        """
+        , {'b_id': board_id})

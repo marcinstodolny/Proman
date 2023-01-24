@@ -3,24 +3,30 @@ export let dataHandler = {
         return await apiGet("/api/boards");
     },
     getBoard: async function (boardId) {
-        // the board is retrieved and then the callback function is called with the board
+        return await apiGet(`/api/boards/${boardId}`);
     },
     getStatuses: async function () {
+        return await apiGet(`/api/statuses`);
         // the statuses are retrieved and then the callback function is called with the statuses
     },
     getStatus: async function (statusId) {
+        return await apiGet(`/api/statuses/${statusId}`);
         // the status is retrieved and then the callback function is called with the status
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
+        // the board is retrieved and then the callback function is called with the cards
     },
     getCard: async function (cardId) {
+        return await apiGet(`/api/boards/${cardId}`);
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle) {
+        // return await apiGet(`/api/boards/${boardTitle}`);
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
+        return await apiGet(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
         // creates new card, saves it and calls the callback function with its data
     },
 };
