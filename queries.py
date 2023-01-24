@@ -2,14 +2,9 @@ import data_manager
 
 
 def get_card_status(status_id):
-    """
-    Find the first status matching the given id
-    :param status_id:
-    :return: str
-    """
     status = data_manager.execute_select(
         """
-        SELECT * FROM statuses s
+        SELECT title FROM statuses s
         WHERE s.id = %(status_id)s
         ;
         """
@@ -19,13 +14,6 @@ def get_card_status(status_id):
 
 
 def get_boards():
-    """
-    Gather all boards
-    :return:
-    """
-    # remove this code once you implement the database
-    # return [{"title": "board1", "id": 1}, {"title": "board2", "id": 2}]
-
     return data_manager.execute_select(
         """
         SELECT * FROM boards
@@ -35,8 +23,6 @@ def get_boards():
 
 
 def get_cards_for_board(board_id):
-    # remove this code once you implement the database
-    # return [{"title": "title1", "id": 1}, {"title": "board2", "id": 2}]
 
     matching_cards = data_manager.execute_select(
         """
@@ -49,6 +35,48 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
+def create_card(board_id, status_id, card_title):
+    new_card = data_manager.execute_select(
+        """
+        INSERT INTO cards 
+        (board_id, status_id, title, card_order)
+        VALUES (%(b_id)s, %(s_id)s, %(title)s)
+        """
+        , {'b_id': board_id, 's_id': status_id, 'title': card_title})
+
+    return new_card
+
+
+# def rename_card(card_id, title):
+#     renamed_card = data_manager.execute_select(
+#         """
+#         UPDATE cards
+#         SET title = %(title)s
+#         WHERE id = %(card_id)s
+#         """
+#         , {'c_id': card_id, 'title': title})
+#
+#     return renamed_card
+
+
+def get_statuses():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM statuses
+        ;
+        """
+    )
+
+
+def get_board_title(board_id):
+    return data_manager.execute_select(
+        """
+        SELECT title FROM statuses
+        WHERE id = %(board_id)s
+        """
+        , {'b_id': board_id})
+
+
 def create_new_board(board_title):
     return data_manager.execute_insert(
         """
@@ -56,3 +84,32 @@ def create_new_board(board_title):
         VALUES (%(title)s)
         """
         , {"title": board_title})
+
+
+def is_user_exist(username):
+    return data_manager.execute_select(
+        """
+        SELECT username
+        FROM users
+        WHERE username = (%(username)s)
+        """
+        , {"username": username})
+
+
+def insert_new_user(username, password, time):
+    return data_manager.execute_select(
+        """
+        INSERT INTO users (username, password, registration_date)
+        VALUES (%(username)s, %(password)s, %(time)s)
+        """
+        , {"username": username, "password": password, "time": time})
+
+
+def get_user_password(username):
+    return data_manager.execute_select(
+        """
+            SELECT password
+            FROM users
+            WHERE username = %(username)s
+        """
+        , {"username": username})

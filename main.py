@@ -6,7 +6,9 @@ import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+app.secret_key = b'DevTeamMDM'
 load_dotenv()
+
 
 @app.route("/")
 def index():
@@ -40,6 +42,30 @@ def create_new_boards():
     data = request.json
     queries.create_new_board(data[0]['board_title'])
     return "ok"
+
+
+@app.route("/api/statuses")
+@json_response
+def get_statuses_for_board():
+    return queries.get_statuses()
+
+
+@app.route("/api/boards/<int:board_id>")
+@json_response
+def get_board_title(board_id: int):
+    return queries.get_board_title(board_id)
+
+
+@app.route("/api/statuses/<int:status_id>")
+@json_response
+def get_status_title(status_id: int):
+    return queries.get_card_status(status_id)
+
+
+@app.route("/api/boards/<int:board_id>/<int:status_id>/<card_title>")
+@json_response
+def create_new_card(board_id: int, status_id: int, card_title):
+    return create_new_card(board_id, status_id, card_title)
 
 
 def main():
