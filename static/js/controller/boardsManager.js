@@ -17,9 +17,22 @@ export let boardsManager = {
             );
         }
     },
+    listenerNewBoard: function () {
+        const newBoardBtn = document.querySelector('#new-board-btn');
+        let text = "dupa";
+        newBoardBtn.addEventListener('click', () => dataHandler.createNewBoard(text))
+    }
 };
 
 function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
+    const boardId = checkChildren(clickEvent.target);
     cardsManager.loadCards(boardId);
+}
+
+function checkChildren(target) {
+    if (target.children.length > 0){
+        return target.dataset.boardId;
+    } else {
+        return target.parentElement.dataset.boardId;
+    }
 }

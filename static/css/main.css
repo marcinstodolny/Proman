@@ -2,6 +2,16 @@
     background-color: green;
 }
 
+#navbar-list{
+    list-style-type: none;
+    align-items: center;
+    overflow: hidden;
+}
+
+#new-board-btn-container{
+    float: right;
+}
+
 :root{
     --border-radius: 3px;
     --status-1: #590000;
@@ -36,7 +46,7 @@ button{
     padding: 4px 10px;
 }
 
-.board-container{
+.board-container, #navbar-container{
     max-width: 960px;
     margin: 0 auto;
 }
