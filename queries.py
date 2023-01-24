@@ -1,18 +1,7 @@
 import data_manager
 
 
-# def get_card_status(status_id):
-#     status = data_manager.execute_select(
-#         """
-#         SELECT title FROM statuses s
-#         WHERE s.id = %(status_id)s
-#         ;
-#         """
-#         , {"status_id": status_id})
-#
-#     return status
-
-def get_status_title(status_id):
+def get_card_status(status_id):
     status = data_manager.execute_select(
         """
         SELECT title FROM statuses s
@@ -22,6 +11,8 @@ def get_status_title(status_id):
         , {"status_id": status_id})
 
     return status
+
+
 def get_boards():
     return data_manager.execute_select(
         """

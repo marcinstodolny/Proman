@@ -57,13 +57,8 @@ def get_board_title(board_id: int):
 @app.route("/api/statuses/<int:status_id>")
 @json_response
 def get_status_title(status_id: int):
-    return get_status_title(status_id)
+    return queries.get_card_status(status_id)
 
-
-# @app.route("/api/boards/<board_title>")
-# @json_response
-# def create_new_board(board_title):
-#     return create_new_board(board_title)
 
 @app.route("/api/boards/<int:board_id>/<int:status_id>/<card_title>")
 @json_response
