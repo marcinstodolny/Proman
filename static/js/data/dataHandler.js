@@ -23,6 +23,18 @@ export let dataHandler = {
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     },
+    loginAttempt: async function(username, password) {
+        console.log(username, password)
+         return await apiPost("/login/");
+    },
+    register: async function(username, password) {
+        console.log(username, password)
+         return await apiPost("/register/");
+    },
+    is_user_exist: async function(username) {
+        console.log(username)
+         return await apiPost("/is_user_exist/");
+    },
 };
 
 async function apiGet(url) {
