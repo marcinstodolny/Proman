@@ -17,6 +17,11 @@ export let boardsManager = {
             );
         }
     },
+    listenerNewBoard: function () {
+        const newBoardBtn = document.querySelector('#new-board-btn');
+        let text = "dupa";
+        newBoardBtn.addEventListener('click', () => dataHandler.createNewBoard(text))
+    }
 };
 
 function showHideButtonHandler(clickEvent) {
