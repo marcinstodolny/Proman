@@ -39,9 +39,9 @@ function boardBuilder(board, statuses) {
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>            
-                    <div class ="board-columns" id=${board.id} style="visibility: hidden;">` +
+                    <div class ="board-columns" id=${board.id} style="visibility: hidden;">
                         ${columns}
-                    `</div>
+                    </div>
                 </section>
             </div>`;
 }

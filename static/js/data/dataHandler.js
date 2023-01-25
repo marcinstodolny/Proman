@@ -46,15 +46,18 @@ export let dataHandler = {
     register: async function(username, password) {
          return await apiPost("/register", [{username: username, password: password}]);
     },
+
     is_user_exist: async function(username) {
         let result = ''
         await apiPost("/is_user_exist", [{username: username}]).then(data => data.json())
              .then(data => result = data['message']);
          return result;
     },
+
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
-    }
+    },
+
     logout: async function(){
         return await apiGet('/logout')
     }

@@ -60,7 +60,7 @@ def create_new_card(board_id, status_id, card_title):
 
 
 def delete_card(card_id):
-    return data_manager.execute_select(
+    return data_manager.execute_insert(
         """
         DELETE FROM cards
         WHERE id = %(card_id)s
