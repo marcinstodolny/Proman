@@ -6,6 +6,8 @@ async function initModals(){
     login.addEventListener('click', loginMain)
     const register = document.querySelector('#register-btn')
     register.addEventListener('click', registerMain)
+    const logout = document.querySelector('#logout-btn')
+    logout.addEventListener('click', logoutMain)
 }
 
 const modal = document.getElementById("myModal");
@@ -15,10 +17,10 @@ const span = document.getElementsByClassName("close");
 const title = document.getElementById('modal-title');
 
 async function loginMain(){
-    title.innerHTML = `<h1>login page</h1>
-        <label for="username">Username: </label>
+    title.innerHTML = `<h1 class="modal-title">login page</h1>
+        <label for="username" class="modal-label">Username: </label>
         <input type="text" name="username" id="username" required><br><br>
-        <label for="password">Password: </label>
+        <label for="password" class="modal-label">Password: </label>
         <input type="password" name="password" id="password" required><br><br>
         <button id="modal-login-btn">Login</button>`
     modal.style.display = "block";
@@ -30,16 +32,16 @@ async function loginMain(){
     )
 }
 async function registerMain(){
-    title.innerHTML = `<h1>Registration page</h1>
-                <label>User name:
+    title.innerHTML = `<h1 class="modal-title">Registration page</h1>
+                <label class="modal-label">User name:
                 <input id="user-register" name="user-name" type="text" maxlength="20" required>
                 </label>
                 <br><br>
-                <label>Password:
+                <label class="modal-label">Password:
                     <input id="password-register" name="password" type="password" minlength="6" required>
                 </label>
                 <br><br>
-                <label>Confirm password:
+                <label class="modal-label">Confirm password:
                     <input id="password-register-confirm" name="confirm-password" type="password" required>
                 </label>
                 <br><br>
@@ -50,10 +52,21 @@ async function registerMain(){
         const username = document.querySelector('#user-register').value
         const password = document.querySelector('#password-register').value
         const password_confirm = document.querySelector('#password-register-confirm').value
-         // && !dataHandler.is_user_exist('username')
-        if (password === password_confirm){
-        await dataHandler.register(username, password)
-        }})
+        const exist = await dataHandler.is_user_exist(username)
+        if (password === password_confirm && !exist){
+            await dataHandler.register(username, password)
+            window.location.reload()
+        } else if (password !== password_confirm){
+            alert('Passwords are not the same')
+        } else if (exist){
+            alert('User already exist')
+        }
+    })
+}
+
+async function logoutMain() {
+    await dataHandler.logout()
+    window.location.reload()
 }
 
     for (let i = 0; i < span.length; i++){

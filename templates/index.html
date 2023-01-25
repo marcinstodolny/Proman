@@ -22,13 +22,36 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <button id='login-btn'>login</button>
-        <button id='register-btn'>register</button>
+    {% if session['username'] %}
+        <div id="logout">
+            <button id='logout-btn'>logout</button>
+            <div id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</div>
+        </div>
+        <div id="login-register" style="display: none">
+            <button id='login-btn'>login</button>
+            <button id='register-btn'>register</button>
+        </div>
+    {% else %}
+        <div id="logout" style="display: none;">
+            <button id='logout-btn'>logout</button>
+            <div id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</div>
+        </div>
+        <div id="login-register">
+            <button id='login-btn'>login</button>
+            <button id='register-btn'>register</button>
+        </div>
+    {% endif %}
         <div id="root">
         <div id="navbar-container">
             <ul id="navbar-list">
                 <li><h2>ProMan</h2></li>
-                <li id="new-board-btn-container"><button id="new-board-btn">New board</button></li>
+                <li class="new-board-container" id="new-board-input-container">
+                    <input id="new-board-input" placeholder="Insert new board name">
+                    <button id="save-new-board">Save</button>
+                </li>
+                <li class="new-board-container">
+                    <button id="new-board-btn">New board</button>
+                </li>
             </ul>
         </div>
 

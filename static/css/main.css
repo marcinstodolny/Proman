@@ -12,6 +12,10 @@
     float: right;
 }
 
+#new-board-input-container{
+    display: none;
+}
+
 :root{
     --border-radius: 3px;
     --status-1: #590000;
@@ -182,4 +186,11 @@ section.board{
 
 .fas {
     pointer-events: none;
+}
+
+.modal-label {
+    font-size: 17px;
+}
+.modal-title {
+    font-size: 40px;
 }
