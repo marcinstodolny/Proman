@@ -43,14 +43,17 @@ export let boardsManager = {
 function showHideButtonHandler(clickEvent) {
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
+    console.log(board);
+    console.log(window.getComputedStyle(board).visibility);
     // if (board.children.length === 0) {
-        cardsManager.loadCards(boardId);
+
     // }
     if (window.getComputedStyle(board).visibility === "hidden") {
-
+        cardsManager.loadCards(boardId);
         board.style.visibility = "visible";
     }
     else {
+        cardsManager.deleteCards(boardId);
         board.style.visibility = "hidden";
     }
 

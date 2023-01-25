@@ -17,12 +17,17 @@ export let cardsManager = {
             );
         }
     },
+    deleteCards: async function (boardId) {
+        const cards = await dataHandler.getCardsByBoardId(boardId);
+        for (let card of cards) {
+            document.querySelector(`.card[data-card-id="${card.id}"]`).remove();
+        }
+    },
 };
 
 function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
     let cardId = card.parentElement.dataset.cardId;
-    console.log(cardId);
-    dataHandler.deleteCard(cardId);
     card.parentElement.remove();
+    dataHandler.deleteCard(cardId);
 }

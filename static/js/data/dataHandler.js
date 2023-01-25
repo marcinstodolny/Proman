@@ -81,14 +81,14 @@ async function apiPost(url, payload) {
 }
 
 async function apiDelete(url) {
-    const response = await fetch(url, {
+    let response = fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json'
             }
         });
     if (response.ok) {
-        return await response.json();
+        return response;
     }
 }
 

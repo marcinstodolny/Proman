@@ -51,7 +51,3 @@ function cardBuilder(card) {
                 <div class="card-title">${card.title}</div>
             </div>`;
 }
-
-function columnBuilder() {
-
-}
