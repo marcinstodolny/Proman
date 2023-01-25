@@ -22,7 +22,7 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle, board_type) {
-        return await apiPost('/api/new-board', [{board_title : boardTitle, board_type: board_type}])
+        return await apiPost('/api/board', [{board_title : boardTitle, board_type: board_type}])
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         return await apiGet(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
@@ -49,8 +49,8 @@ export let dataHandler = {
              .then(data => result = data['message']);
          return result;
     },
-    logout: async function(){
-        return await apiGet('/logout')
+    renameBoard: async function(boardId, boardNewName){
+        return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
     }
 };
 
@@ -83,5 +83,16 @@ async function apiDelete(url) {
 async function apiPut(url) {
 }
 
-async function apiPatch(url) {
+async function apiPatch(url, body) {
+    let response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    if (response.ok) {
+        return response
+    }
 }

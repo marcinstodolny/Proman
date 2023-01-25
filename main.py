@@ -41,13 +41,16 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
-@app.route('/api/new-board', methods=['POST'])
+@app.route('/api/board', methods=['POST', 'PATCH'])
 def create_new_boards():
     data = request.json[0]
-    if data['board_type'] == 'public':
-        queries.create_new_board(data['board_title'], data['board_type'])
-    else:
-        queries.create_new_board(data['board_title'], data['board_type'], session['username'])
+    if request.method == 'POST':
+        if data['board_type'] == 'public':
+            queries.create_new_board(data['board_title'], data['board_type'])
+        else:
+            queries.create_new_board(data['board_title'], data['board_type'], session['username'])
+    elif request.method == 'PATCH':
+        queries.rename_board(data['id'], data['title'])
     return "ok"
 
 
