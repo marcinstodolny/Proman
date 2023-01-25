@@ -42,7 +42,7 @@ def get_cards_for_board(board_id: int):
 
 
 @app.route('/api/board', methods=['POST', 'PATCH'])
-def create_new_boards():
+def board_manipulate():
     data = request.json[0]
     if request.method == 'POST':
         if data['board_type'] == 'public':
