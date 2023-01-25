@@ -86,6 +86,16 @@ def create_new_board(board_title):
         , {"title": board_title})
 
 
+def rename_board(board_id, board_new_name):
+    return data_manager.execute_insert(
+        """
+        UPDATE boards
+        SET title = (%(title)s)
+        WHERE id = (%(id)s)
+        """
+        , {"title": board_new_name, "id": board_id})
+
+
 def is_user_exist(username):
     return data_manager.execute_select(
         """

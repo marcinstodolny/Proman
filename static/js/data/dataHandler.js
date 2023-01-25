@@ -40,6 +40,9 @@ export let dataHandler = {
         console.log(username)
          return await apiPost("/is_user_exist/");
     },
+    renameBoard: async function(boardId, boardNewName){
+        return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
+    }
 };
 
 async function apiGet(url) {
@@ -71,5 +74,16 @@ async function apiDelete(url) {
 async function apiPut(url) {
 }
 
-async function apiPatch(url) {
+async function apiPatch(url, body) {
+    let response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    if (response.ok) {
+        return response
+    }
 }
