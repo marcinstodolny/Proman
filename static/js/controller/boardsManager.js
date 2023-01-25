@@ -18,10 +18,25 @@ export let boardsManager = {
             );
         }
     },
-    listenerNewBoard: function () {
+    listenerNewBoard: async function () {
         const newBoardBtn = document.querySelector('#new-board-btn');
-        let text = "siema"; // temporary variable
-        newBoardBtn.addEventListener('click', () => dataHandler.createNewBoard(text))
+        const newBoardContainer = document.querySelector('#new-board-input-container');
+        const newBoardSaveBtn = document.querySelector('#save-new-board');
+        newBoardBtn.addEventListener('click', () => {
+            let newBoardContainerVisibility = newBoardContainer.style.display;
+            if (newBoardContainerVisibility === "block"){
+                newBoardContainer.style.display = "none"
+            } else {
+                newBoardContainer.style.display = "block"
+            }
+        });
+        newBoardSaveBtn.addEventListener('click', () => {
+            const boardName = document.querySelector('#new-board-input');
+            if (boardName.value) {
+                dataHandler.createNewBoard(boardName.value)
+                window.location.reload();
+            }
+        })
     }
 };
 

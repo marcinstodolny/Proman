@@ -24,7 +24,6 @@ function boardBuilder(board, statuses) {
 
     let columns = "";
     for (let index= 0; index < statuses.length; index++) {
-        console.log("board${board.id}_column{status[${index+1}}]")
         columns += `
         <div class="board-column">
             <div class="board-column-title">`
