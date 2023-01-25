@@ -29,17 +29,29 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
     },
     loginAttempt: async function(username, password) {
-        console.log(username, password)
-         return await apiPost("/login/");
+        let response = ''
+         await apiPost("/login", [{username: username, password: password}])
+             .then(data => data.json())
+             .then(data => response = data['message']);
+        if (response === 'Invalid login attempt'){
+            alert(response)
+        } else {
+            window.location.reload();
+        }
+
     },
     register: async function(username, password) {
-        console.log(username, password)
-         return await apiPost("/register/");
+         return await apiPost("/register", [{username: username, password: password}]);
     },
     is_user_exist: async function(username) {
-        console.log(username)
-         return await apiPost("/is_user_exist/");
+        let result = ''
+        await apiPost("/is_user_exist", [{username: username}]).then(data => data.json())
+             .then(data => result = data['message']);
+         return result;
     },
+    logout: async function(){
+        return await apiGet('/logout')
+    }
 };
 
 async function apiGet(url) {

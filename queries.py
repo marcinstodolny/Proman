@@ -97,7 +97,7 @@ def is_user_exist(username):
 
 
 def insert_new_user(username, password, time):
-    return data_manager.execute_select(
+    return data_manager.execute_insert(
         """
         INSERT INTO users (username, password, registration_date)
         VALUES (%(username)s, %(password)s, %(time)s)

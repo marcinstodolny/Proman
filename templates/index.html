@@ -22,8 +22,25 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <button id='login-btn'>login</button>
-        <button id='register-btn'>register</button>
+    {% if session['username'] %}
+        <div id="logout">
+            <button id='logout-btn'>logout</button>
+            <p id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</p>
+        </div>
+        <div id="login-register" style="display: none">
+            <button id='login-btn'>login</button>
+            <button id='register-btn'>register</button>
+        </div>
+    {% else %}
+        <div id="logout" style="display: none;">
+            <button id='logout-btn'>logout</button>
+            <p id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</p>
+        </div>
+        <div id="login-register">
+            <button id='login-btn'>login</button>
+            <button id='register-btn'>register</button>
+        </div>
+    {% endif %}
         <div id="root">
         <div id="navbar-container">
             <ul id="navbar-list">

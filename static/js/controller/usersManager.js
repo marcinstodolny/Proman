@@ -6,6 +6,8 @@ async function initModals(){
     login.addEventListener('click', loginMain)
     const register = document.querySelector('#register-btn')
     register.addEventListener('click', registerMain)
+    const logout = document.querySelector('#logout-btn')
+    logout.addEventListener('click', logoutMain)
 }
 
 const modal = document.getElementById("myModal");
@@ -50,10 +52,21 @@ async function registerMain(){
         const username = document.querySelector('#user-register').value
         const password = document.querySelector('#password-register').value
         const password_confirm = document.querySelector('#password-register-confirm').value
-         // && !dataHandler.is_user_exist('username')
-        if (password === password_confirm){
-        await dataHandler.register(username, password)
-        }})
+        const exist = await dataHandler.is_user_exist(username)
+        if (password === password_confirm && !exist){
+            await dataHandler.register(username, password)
+            window.location.reload()
+        } else if (password !== password_confirm){
+            alert('Passwords are not the same')
+        } else if (exist){
+            alert('User already exist')
+        }
+    })
+}
+
+async function logoutMain() {
+    await dataHandler.logout()
+    window.location.reload()
 }
 
     for (let i = 0; i < span.length; i++){
