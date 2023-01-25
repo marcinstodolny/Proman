@@ -12,7 +12,7 @@
     float: right;
 }
 
-#new-board-input-container{
+#new-board-input-container, #new-private-board-input-container{
     display: none;
 }
 

@@ -86,13 +86,23 @@ def get_board_title(board_id):
         , {'b_id': board_id})
 
 
-def create_new_board(board_title):
+def create_new_board(board_title, board_type, username=''):
     return data_manager.execute_insert(
         """
-        INSERT INTO boards (title)
-        VALUES (%(title)s)
+        INSERT INTO boards (title, type, owner)
+        VALUES (%(title)s, %(type)s, %(owner)s)
         """
-        , {"title": board_title})
+        , {"title": board_title, 'type': board_type, 'owner': username})
+
+
+def rename_board(board_id, board_new_name):
+    return data_manager.execute_insert(
+        """
+        UPDATE boards
+        SET title = (%(title)s)
+        WHERE id = (%(id)s)
+        """
+        , {"title": board_new_name, "id": board_id})
 
 
 def rename_board(board_id, board_new_name):

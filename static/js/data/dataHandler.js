@@ -21,8 +21,8 @@ export let dataHandler = {
         return await apiGet(`/api/boards/${cardId}`);
         // the card is retrieved and then the callback function is called with the card
     },
-    createNewBoard: async function (boardTitle) {
-        return await apiPost('/api/new-board', [{board_title : boardTitle}])
+    createNewBoard: async function (boardTitle, board_type) {
+        return await apiPost('/api/board', [{board_title : boardTitle, board_type: board_type}])
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         return await apiGet(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
@@ -53,7 +53,6 @@ export let dataHandler = {
              .then(data => result = data['message']);
          return result;
     },
-
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
     },

@@ -27,23 +27,33 @@ export let boardsManager = {
         const newBoardBtn = document.querySelector('#new-board-btn');
         const newBoardContainer = document.querySelector('#new-board-input-container');
         const newBoardSaveBtn = document.querySelector('#save-new-board');
-        newBoardBtn.addEventListener('click', () => {
-            let newBoardContainerVisibility = newBoardContainer.style.display;
+        const newPrivateBoardBtn = document.querySelector('#new-private-board-btn');
+        const newPrivateBoardContainer = document.querySelector('#new-private-board-input-container');
+        const newPrivateBoardSaveBtn = document.querySelector('#save-new-private-board');
+        add_event(newBoardBtn, newBoardContainer)
+        add_event(newPrivateBoardBtn, newPrivateBoardContainer)
+        await add_event2(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
+        await add_event2(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+    }
+};
+function add_event(boardBtn, BoardContainer){
+    boardBtn.addEventListener('click', () => {
+            let newBoardContainerVisibility = BoardContainer.style.display;
             if (newBoardContainerVisibility === "block"){
-                newBoardContainer.style.display = "none"
+                BoardContainer.style.display = "none"
             } else {
-                newBoardContainer.style.display = "block"
+                BoardContainer.style.display = "block"
             }
         });
-        newBoardSaveBtn.addEventListener('click', () => {
-            const boardName = document.querySelector('#new-board-input');
+}
+async function add_event2(BoardSaveBtn, boardName, type){
+    BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
-                dataHandler.createNewBoard(boardName.value)
+                dataHandler.createNewBoard(boardName.value, type)
                 window.location.reload();
             }
         })
-    }
-};
+}
 
 function showHideButtonHandler(clickEvent) {
     const boardId = checkChildren(clickEvent.target);
@@ -73,17 +83,21 @@ function checkChildren(target) {
 }
 
 function renameBoard (board) {
+    const titleId = board.target.dataset['boardTitleId'];
     let text = board.target.innerHTML;
     const boardId = board.target.id;
-    board.target.outerHTML = `<input class="board-title" id="input-${boardId}" value="${text}">`
+    board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
     input.addEventListener('keyup', function test(event) {
         if (event.code === "Enter" ) {
-            const titleId = board.target.dataset['boardTitleId'];
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
             dataHandler.renameBoard(titleId, inputText);
+            boardTitle.addEventListener('click', renameBoard);
+        } else if (event.code === "Escape") {
+            event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
+            const boardTitle = document.querySelector(`#${boardId}`);
             boardTitle.addEventListener('click', renameBoard);
         }
     })

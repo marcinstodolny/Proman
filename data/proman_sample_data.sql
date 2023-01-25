@@ -33,7 +33,9 @@ CREATE TABLE statuses (
 
 CREATE TABLE boards (
     id          SERIAL PRIMARY KEY  NOT NULL,
-    title       VARCHAR(200)        NOT NULL
+    title       VARCHAR(200)        NOT NULL,
+    type        VARCHAR(10)         NOT NULL,
+    owner       VARCHAR(20)         NOT NULL
 );
 
 CREATE TABLE cards (
@@ -59,8 +61,8 @@ INSERT INTO statuses(title) VALUES ('in progress');
 INSERT INTO statuses(title) VALUES ('testing');
 INSERT INTO statuses(title) VALUES ('done');
 
-INSERT INTO boards(title) VALUES ('Board 1');
-INSERT INTO boards(title) VALUES ('Board 2');
+INSERT INTO boards(title, type, owner) VALUES ('Board 1', 'public', 'test');
+INSERT INTO boards(title, type, owner) VALUES ('Board 2', 'private', 'admin');
 
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);
@@ -76,7 +78,7 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 2);
 
 INSERT INTO users VALUES (1, 'admin', '$2b$12$XeC/nv0xqJwULcE8GGDsE.FB9XIxnHucsA6qv/ynbsLgfdFXMa9He',  '2022-12-13 14:49:35');
-
+INSERT INTO users VALUES (2, 'test', '$2b$12$BUsvilq2feigmR1aPM6UZeBWc/WlqVBUsP1Oakgur.5JWGipHNksy',  '2022-12-15 14:49:35');
 ---
 --- add constraints
 ---
