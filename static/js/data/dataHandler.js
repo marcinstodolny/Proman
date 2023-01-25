@@ -52,6 +52,9 @@ export let dataHandler = {
              .then(data => result = data['message']);
          return result;
     },
+    renameBoard: async function(boardId, boardNewName){
+        return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
+    }
     logout: async function(){
         return await apiGet('/logout')
     }
@@ -95,5 +98,16 @@ async function apiDelete(url) {
 async function apiPut(url) {
 }
 
-async function apiPatch(url) {
+async function apiPatch(url, body) {
+    let response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    if (response.ok) {
+        return response
+    }
 }

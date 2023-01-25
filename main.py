@@ -43,8 +43,15 @@ def get_cards_for_board(board_id: int):
 
 @app.route('/api/new-board', methods=['POST'])
 def create_new_boards():
-    data = request.json
-    queries.create_new_board(data[0]['board_title'])
+    data = request.json[0]
+    queries.create_new_board(data['board_title'])
+    return "ok"
+
+
+@app.route('/api/board', methods=["PATCH"])
+def rename_board():
+    data = request.json[0]
+    queries.rename_board(data['id'], data['title'])
     return "ok"
 
 
