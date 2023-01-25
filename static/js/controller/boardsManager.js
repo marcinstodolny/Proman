@@ -27,7 +27,18 @@ export let boardsManager = {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = checkChildren(clickEvent.target);
-    cardsManager.loadCards(boardId);
+    let board = document.getElementById(boardId);
+    // if (board.children.length === 0) {
+        cardsManager.loadCards(boardId);
+    // }
+    if (window.getComputedStyle(board).visibility === "hidden") {
+
+        board.style.visibility = "visible";
+    }
+    else {
+        board.style.visibility = "hidden";
+    }
+
 }
 
 function checkChildren(target) {

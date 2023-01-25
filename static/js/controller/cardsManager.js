@@ -20,4 +20,9 @@ export let cardsManager = {
 };
 
 function deleteButtonHandler(clickEvent) {
+    const card = clickEvent.target;
+    let cardId = card.parentElement.dataset.cardId;
+    console.log(cardId);
+    dataHandler.deleteCard(cardId);
+    card.parentElement.remove();
 }

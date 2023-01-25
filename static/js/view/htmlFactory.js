@@ -24,12 +24,9 @@ function boardBuilder(board, statuses) {
 
     let columns = "";
     for (let index= 0; index < statuses.length; index++) {
-        console.log("board${board.id}_column{status[${index+1}}]")
         columns += `
         <div class="board-column">
-            <div class="board-column-title">`
-            +statuses[index].title+
-            `</div>
+            <div class="board-column-title">${statuses[index].title}</div>
             <div class="board-column-content" 
             data-column-id="board${board.id}_column{status[${index+1}}]"></div>
         </div>`;
@@ -41,7 +38,7 @@ function boardBuilder(board, statuses) {
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                    <div class ="board-columns">` +
+                    <div class ="board-columns" id=${board.id} style="visibility: hidden;">` +
                         columns +
                     `</div>
                 </section>
@@ -55,3 +52,6 @@ function cardBuilder(card) {
             </div>`;
 }
 
+function columnBuilder() {
+
+}

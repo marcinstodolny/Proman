@@ -179,3 +179,7 @@ section.board{
   text-decoration: none;
   cursor: pointer;
 }
+
+.fas {
+    pointer-events: none;
+}

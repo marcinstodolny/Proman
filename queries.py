@@ -35,7 +35,7 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
-def create_card(board_id, status_id, card_title):
+def create_new_card(board_id, status_id, card_title):
     new_card = data_manager.execute_select(
         """
         INSERT INTO cards 
@@ -57,6 +57,15 @@ def create_card(board_id, status_id, card_title):
 #         , {'c_id': card_id, 'title': title})
 #
 #     return renamed_card
+
+
+def delete_card(card_id):
+    return data_manager.execute_select(
+        """
+        DELETE FROM cards
+        WHERE id = %(card_id)s
+        """
+        , {'card_id': card_id})
 
 
 def get_statuses():

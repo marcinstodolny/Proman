@@ -28,6 +28,9 @@ export let dataHandler = {
         return await apiGet(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
         // creates new card, saves it and calls the callback function with its data
     },
+    deleteCard: async function (cardId) {
+        return await apiDelete(`/api/delete-card/${cardId}`)},
+
     loginAttempt: async function(username, password) {
         console.log(username, password)
          return await apiPost("/login/");
@@ -66,6 +69,15 @@ async function apiPost(url, payload) {
 }
 
 async function apiDelete(url) {
+    const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+    if (response.ok) {
+        return await response.json();
+    }
 }
 
 async function apiPut(url) {
