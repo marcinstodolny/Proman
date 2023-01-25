@@ -16,9 +16,14 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            domManager.addEventListener(
+                `#board-title_${board.id}`,
+                'click',
+                renameBoard
+            )
         }
     },
-    listenerNewBoard: async function () {
+    creatingNewBoard: async function () {
         const newBoardBtn = document.querySelector('#new-board-btn');
         const newBoardContainer = document.querySelector('#new-board-input-container');
         const newBoardSaveBtn = document.querySelector('#save-new-board');
@@ -61,4 +66,25 @@ function checkChildren(target) {
     } else {
         return target.parentElement.dataset.boardId;
     }
+}
+
+function renameBoard (board) {
+    const titleId = board.target.dataset['boardTitleId'];
+    let text = board.target.innerHTML;
+    const boardId = board.target.id;
+    board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
+    const input = document.querySelector(`#input-${boardId}`)
+    input.addEventListener('keyup', function test(event) {
+        if (event.code === "Enter" ) {
+            const inputText = event.target.value;
+            event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
+            const boardTitle = document.querySelector(`#${boardId}`);
+            dataHandler.renameBoard(titleId, inputText);
+            boardTitle.addEventListener('click', renameBoard);
+        } else if (event.code === "Escape") {
+            event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
+            const boardTitle = document.querySelector(`#${boardId}`);
+            boardTitle.addEventListener('click', renameBoard);
+        }
+    })
 }
