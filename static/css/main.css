@@ -194,3 +194,7 @@ section.board{
 .modal-title {
     font-size: 40px;
 }
+
+.hide-board {
+     display: none;
+}

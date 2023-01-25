@@ -58,20 +58,14 @@ async function add_event2(BoardSaveBtn, boardName, type){
 function showHideButtonHandler(clickEvent) {
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
-    console.log(board);
-    console.log(window.getComputedStyle(board).visibility);
-    // if (board.children.length === 0) {
-
-    // }
-    if (window.getComputedStyle(board).visibility === "hidden") {
+    if (board.classList.contains("hide-board")) {
         cardsManager.loadCards(boardId);
-        board.style.visibility = "visible";
+        board.classList.remove("hide-board");
     }
     else {
         cardsManager.deleteCards(boardId);
-        board.style.visibility = "hidden";
+        board.classList.add("hide-board");
     }
-
 }
 
 function checkChildren(target) {
