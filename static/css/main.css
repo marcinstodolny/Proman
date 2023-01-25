@@ -171,9 +171,8 @@ section.board{
 }
 
 .close {
-  color: black;
   float: right;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -182,4 +181,11 @@ section.board{
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal-label {
+    font-size: 17px;
+}
+.modal-title {
+    font-size: 40px;
 }

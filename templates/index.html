@@ -25,7 +25,7 @@
     {% if session['username'] %}
         <div id="logout">
             <button id='logout-btn'>logout</button>
-            <p id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</p>
+            <div id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</div>
         </div>
         <div id="login-register" style="display: none">
             <button id='login-btn'>login</button>
@@ -34,7 +34,7 @@
     {% else %}
         <div id="logout" style="display: none;">
             <button id='logout-btn'>logout</button>
-            <p id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</p>
+            <div id ='user-session' style="display: inline-block">Signed in as {{ session['username'] }}</div>
         </div>
         <div id="login-register">
             <button id='login-btn'>login</button>

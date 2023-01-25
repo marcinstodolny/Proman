@@ -17,10 +17,10 @@ const span = document.getElementsByClassName("close");
 const title = document.getElementById('modal-title');
 
 async function loginMain(){
-    title.innerHTML = `<h1>login page</h1>
-        <label for="username">Username: </label>
+    title.innerHTML = `<h1 class="modal-title">login page</h1>
+        <label for="username" class="modal-label">Username: </label>
         <input type="text" name="username" id="username" required><br><br>
-        <label for="password">Password: </label>
+        <label for="password" class="modal-label">Password: </label>
         <input type="password" name="password" id="password" required><br><br>
         <button id="modal-login-btn">Login</button>`
     modal.style.display = "block";
@@ -32,16 +32,16 @@ async function loginMain(){
     )
 }
 async function registerMain(){
-    title.innerHTML = `<h1>Registration page</h1>
-                <label>User name:
+    title.innerHTML = `<h1 class="modal-title">Registration page</h1>
+                <label class="modal-label">User name:
                 <input id="user-register" name="user-name" type="text" maxlength="20" required>
                 </label>
                 <br><br>
-                <label>Password:
+                <label class="modal-label">Password:
                     <input id="password-register" name="password" type="password" minlength="6" required>
                 </label>
                 <br><br>
-                <label>Confirm password:
+                <label class="modal-label">Confirm password:
                     <input id="password-register-confirm" name="confirm-password" type="password" required>
                 </label>
                 <br><br>
