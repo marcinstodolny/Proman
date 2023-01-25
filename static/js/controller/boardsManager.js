@@ -69,20 +69,20 @@ function checkChildren(target) {
 }
 
 function renameBoard (board) {
+    const titleId = board.target.dataset['boardTitleId'];
     let text = board.target.innerHTML;
     const boardId = board.target.id;
-    board.target.outerHTML = `<input class="board-title" id="input-${boardId}" value="${text}">`
+    board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
     input.addEventListener('keyup', function test(event) {
         if (event.code === "Enter" ) {
-            const titleId = board.target.dataset['boardTitleId'];
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
             dataHandler.renameBoard(titleId, inputText);
             boardTitle.addEventListener('click', renameBoard);
         } else if (event.code === "Escape") {
-            event.target.outerHTML = `<span class="board-title" id="${boardId}">${text}</span>`
+            event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
             boardTitle.addEventListener('click', renameBoard);
         }
