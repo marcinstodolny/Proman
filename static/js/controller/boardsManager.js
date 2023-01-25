@@ -81,6 +81,10 @@ function renameBoard (board) {
             const boardTitle = document.querySelector(`#${boardId}`);
             dataHandler.renameBoard(titleId, inputText);
             boardTitle.addEventListener('click', renameBoard);
+        } else if (event.code === "Escape") {
+            event.target.outerHTML = `<span class="board-title" id="${boardId}">${text}</span>`
+            const boardTitle = document.querySelector(`#${boardId}`);
+            boardTitle.addEventListener('click', renameBoard);
         }
     })
 }
