@@ -51,10 +51,28 @@
                 </li>
                 <li class="new-board-container">
                     <button id="new-board-btn">New board</button>
+                </li><br><br>
+                {% if session['username'] %}
+                <li class="new-board-container" id="new-private-board-input-container">
+                    <input id="new-private-board-input" placeholder="Insert new board name">
+                    <button id="save-new-private-board">Save</button>
                 </li>
+                <li class="new-board-container">
+                    <button id="new-private-board-btn">New private board</button>
+                </li>
+                    </div>
+                {% else %}
+                <div style="display: none">
+                <li class="new-board-container" id="new-private-board-input-container">
+                    <input id="new-private-board-input" placeholder="Insert new board name">
+                    <button id="save-new-private-board">Save</button>
+                </li>
+                <li class="new-board-container">
+                    <button id="new-private-board-btn">New private board</button>
+                </li>
+                    </div>
+                {% endif %}
             </ul>
-        </div>
-
         </div>
     </body>
     <div id="myModal" class="modal">

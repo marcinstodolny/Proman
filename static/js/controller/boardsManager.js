@@ -22,23 +22,33 @@ export let boardsManager = {
         const newBoardBtn = document.querySelector('#new-board-btn');
         const newBoardContainer = document.querySelector('#new-board-input-container');
         const newBoardSaveBtn = document.querySelector('#save-new-board');
-        newBoardBtn.addEventListener('click', () => {
-            let newBoardContainerVisibility = newBoardContainer.style.display;
+        const newPrivateBoardBtn = document.querySelector('#new-private-board-btn');
+        const newPrivateBoardContainer = document.querySelector('#new-private-board-input-container');
+        const newPrivateBoardSaveBtn = document.querySelector('#save-new-private-board');
+        add_event(newBoardBtn, newBoardContainer)
+        add_event(newPrivateBoardBtn, newPrivateBoardContainer)
+        await add_event2(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
+        await add_event2(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+    }
+};
+function add_event(boardBtn, BoardContainer){
+    boardBtn.addEventListener('click', () => {
+            let newBoardContainerVisibility = BoardContainer.style.display;
             if (newBoardContainerVisibility === "block"){
-                newBoardContainer.style.display = "none"
+                BoardContainer.style.display = "none"
             } else {
-                newBoardContainer.style.display = "block"
+                BoardContainer.style.display = "block"
             }
         });
-        newBoardSaveBtn.addEventListener('click', () => {
-            const boardName = document.querySelector('#new-board-input');
+}
+async function add_event2(BoardSaveBtn, boardName, type){
+    BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
-                dataHandler.createNewBoard(boardName.value)
+                dataHandler.createNewBoard(boardName.value, type)
                 window.location.reload();
             }
         })
-    }
-};
+}
 
 function showHideButtonHandler(clickEvent) {
     const boardId = checkChildren(clickEvent.target);

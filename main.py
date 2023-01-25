@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, session
 from dotenv import load_dotenv
 import datetime
 
@@ -43,8 +43,11 @@ def get_cards_for_board(board_id: int):
 
 @app.route('/api/new-board', methods=['POST'])
 def create_new_boards():
-    data = request.json
-    queries.create_new_board(data[0]['board_title'])
+    data = request.json[0]
+    if data['board_type'] == 'public':
+        queries.create_new_board(data['board_title'], data['board_type'])
+    else:
+        queries.create_new_board(data['board_title'], data['board_type'], session['username'])
     return "ok"
 
 
