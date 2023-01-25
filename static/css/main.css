@@ -8,8 +8,12 @@
     overflow: hidden;
 }
 
-#new-board-btn-container{
+.new-board-container{
     float: right;
+}
+
+#new-board-input-container{
+    display: none;
 }
 
 :root{
