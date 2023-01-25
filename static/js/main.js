@@ -7,5 +7,4 @@ function init() {
     boardsManager.creatingNewBoard();
     // boardsManager.renameBoard();
 }
-
 init();

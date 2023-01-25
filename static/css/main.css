@@ -8,7 +8,7 @@
     overflow: hidden;
 }
 
-#new-board-btn-container{
+.new-board-container{
     float: right;
 }
 
@@ -171,9 +171,8 @@ section.board{
 }
 
 .close {
-  color: black;
   float: right;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -184,15 +183,15 @@ section.board{
   cursor: pointer;
 }
 
-.fas {
-    pointer-events: none;
-}
-
 .modal-label {
     font-size: 17px;
 }
 .modal-title {
     font-size: 40px;
+}
+
+.fas {
+    pointer-events: none;
 }
 
 .hide-board {

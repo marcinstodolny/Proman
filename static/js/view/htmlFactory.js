@@ -12,16 +12,13 @@ export function htmlFactory(template) {
     if (builderFunctions.hasOwnProperty(template)) {
         return builderFunctions[template];
     }
-
     console.error("Undefined template: " + template);
-
     return () => {
         return "";
     };
 }
 
 function boardBuilder(board, statuses) {
-
     let columns = "";
     for (let index= 0; index < statuses.length; index++) {
         columns += `
@@ -35,7 +32,9 @@ function boardBuilder(board, statuses) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                     <div class="board-header">
-                        <span class="board-title" id="board-title_${board.id}" data-board-title-id="${board.id}">${board.title}</span>
+                        <span class="board-title" id="board-title_${board.id}" data-board-title-id="${board.id}">
+                            ${board.title}
+                        </span>
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>            
