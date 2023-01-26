@@ -248,3 +248,7 @@ section.board{
     cursor: pointer;
     list-style-type: none;
 }
+
+.flip {
+    transform: rotate(180deg);
+}

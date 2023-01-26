@@ -79,6 +79,7 @@ async function add_event2(BoardSaveBtn, boardName, type){
 }
 
 function showHideButtonHandler(clickEvent) {
+    clickEvent.target.classList.toggle("flip");
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
     if (board.classList.contains("hide-board")) {
