@@ -53,6 +53,9 @@ export let dataHandler = {
              .then(data => result = data['message']);
          return result;
     },
+    logout: async function(){
+        return await apiGet('/logout')
+    },
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
     },
