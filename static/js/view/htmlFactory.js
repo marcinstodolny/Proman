@@ -53,18 +53,20 @@ function boardBuilder(board, statuses) {
                         <span class="board-title" id="board-title_${board.id}" data-board-title-id="${board.id}">
                             ${board.title}
                         </span>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-remove" data-board-id="${board.id}">Delete Board</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>            
                     <div class ="board-columns hide-board" id=${board.id}>
                         ${columns}
                     </div>
                 </section>
-            </div>`
+            </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">
-                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+    return `<div class="card" data-card-id="${card.id}" draggable="true">
+                <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
                 <div class="card-title">${card.title}</div>
             </div>`;
 }

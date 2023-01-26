@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, session
+from flask import Flask, render_template, url_for, request, session, Response
 from dotenv import load_dotenv
 import datetime
 
@@ -28,7 +28,10 @@ def get_boards():
     """
     All the boards
     """
-    return queries.get_boards()
+    if session:
+        return queries.get_public_and_private_boards(session['username'])
+    else:
+        return queries.get_public_boards()
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
@@ -41,17 +44,21 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
-@app.route('/api/board', methods=['POST', 'PATCH'])
-def board_manipulate():
+@app.route('/api/new-board', methods=['POST'])
+def create_new_board():
     data = request.json[0]
-    if request.method == 'POST':
-        if data['board_type'] == 'public':
-            queries.create_new_board(data['board_title'], data['board_type'])
-        else:
-            queries.create_new_board(data['board_title'], data['board_type'], session['username'])
-    elif request.method == 'PATCH':
-        queries.rename_board(data['id'], data['title'])
-    return "ok"
+    if data['board_type'] == 'public':
+        queries.create_new_board(data['board_title'], data['board_type'])
+    else:
+        queries.create_new_board(data['board_title'], data['board_type'], session['username'])
+    return Response('', status=201)
+
+
+@app.route('/api/board/<int:board_id>', methods=["PATCH"])
+def rename_board(board_id: int):
+    data = request.json[0]
+    queries.rename_board(board_id, data['title'])
+    return Response('', status=204)
 
 
 @app.route("/api/statuses")
@@ -67,9 +74,18 @@ def get_board_title(board_id: int):
 
 
 @app.route("/api/delete-card/<card_id>", methods=['DELETE'])
-@json_response
 def delete_card(card_id):
-    return queries.delete_card(card_id)
+    queries.delete_card(card_id)
+    return Response('', status=204)
+
+
+@app.route("/api/delete-board/<board_id>", methods=['DELETE'])
+def delete_board(board_id):
+    if queries.get_board_type_by_id(board_id) == 'private' and session:
+        queries.delete_board(board_id, session['username'])
+    else:
+        queries.delete_board(board_id)
+    return Response('', status=204)
 
 
 @app.route("/api/statuses/<int:status_id>")

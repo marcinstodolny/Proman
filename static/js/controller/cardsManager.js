@@ -11,10 +11,12 @@ export let cardsManager = {
             const content = cardBuilder(card);
             domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
             domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
+                `.card-remove[data-card-id="${card.id}"]`,
                 "click",
                 deleteButtonHandler
             );
+            domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragstart",startDrag)
+            domManager.addEventListener(`.card[data-card-id="${card.id}"`, "dragend", endDrag)
         }
     },
     deleteCards: async function (boardId) {
@@ -22,7 +24,7 @@ export let cardsManager = {
         for (let card of cards) {
             document.querySelector(`.card[data-card-id="${card.id}"]`).remove();
         }
-    }
+    },
 };
 
 export function addCard(boardId, statusId) {
@@ -35,4 +37,12 @@ function deleteButtonHandler(clickEvent) {
     let cardId = card.parentElement.dataset.cardId;
     card.parentElement.remove();
     dataHandler.deleteCard(cardId);
+}
+
+function startDrag(event) {
+    localStorage.setItem('dragged-item', event.target.dataset.cardId);
+}
+
+function endDrag() {
+    localStorage.removeItem('dragged-item');
 }

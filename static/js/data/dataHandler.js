@@ -22,7 +22,7 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle, board_type) {
-        return await apiPost('/api/board', [{board_title : boardTitle, board_type: board_type}])
+        return await apiPost('/api/new-board', [{board_title : boardTitle, board_type: board_type}])
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         return await apiPost(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
@@ -30,6 +30,9 @@ export let dataHandler = {
     },
     deleteCard: async function (cardId) {
         return await apiDelete(`/api/delete-card/${cardId}`)},
+
+    deleteBoard: async function (boardId) {
+        return await apiDelete(`/api/delete-board/${boardId}`)},
 
     loginAttempt: async function(username, password) {
         let response = ''
@@ -56,7 +59,7 @@ export let dataHandler = {
         return await apiGet('/logout')
     },
     renameBoard: async function(boardId, boardNewName){
-        return await apiPatch("/api/board", [{id : boardId, title : boardNewName}]);
+        return await apiPatch(`/api/board/${boardId}`, [{title : boardNewName}]);
     },
 };
 

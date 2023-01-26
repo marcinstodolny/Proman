@@ -13,6 +13,11 @@ export let boardsManager = {
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
             domManager.addEventListener(
+                `.board-remove[data-board-id="${board.id}"]`,
+                "click",
+                deleteBoardButtonHandler
+            );
+            domManager.addEventListener(
                 `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
@@ -36,6 +41,22 @@ export let boardsManager = {
         add_event(newPrivateBoardBtn, newPrivateBoardContainer)
         await add_event2(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
         await add_event2(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+    },
+    modifyingColumns: function () {
+        const boardsColumnsContainers = document.querySelectorAll('.board-column-content');
+        boardsColumnsContainers.forEach((element) => {
+            element.addEventListener('drop', (event) => {
+                event.preventDefault()
+                const cardId = localStorage.getItem('dragged-item')
+                const card = document.querySelector(`.card[data-card-id="${cardId}"]`)
+                if (card.classList.contains("card")) {
+                    element.appendChild(card)
+                }
+            });
+            element.addEventListener('dragover', (event) => {
+                event.preventDefault()
+            })
+        })
     }
 };
 function add_event(boardBtn, BoardContainer){
@@ -81,7 +102,7 @@ function checkChildren(target) {
 
 function renameBoard (board) {
     const titleId = board.target.dataset['boardTitleId'];
-    let text = board.target.innerHTML;
+    let text = board.target.innerText;
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
@@ -98,4 +119,12 @@ function renameBoard (board) {
             boardTitle.addEventListener('click', renameBoard);
         }
     })
+}
+
+function deleteBoardButtonHandler(clickEvent) {
+    const board = clickEvent.target;
+    let boardId = board.dataset.boardId;
+    board.parentElement.remove();
+    dataHandler.deleteBoard(boardId);
+    window.location.reload()
 }
