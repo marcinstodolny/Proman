@@ -34,17 +34,7 @@ def get_public_and_private_boards(username):
         """, {"username": username})
 
 
-def delete_public_board(table_name):
-    return data_manager.execute_insert(
-        """
-        DELETE FROM boards WHERE title = %(table_name)s;
-        """, {'table_name': table_name}
-
-    )
-
-
-def delete_private_board(table_id, username=''):
-    print(table_id, username)
+def delete_board(table_id, username=''):
     return data_manager.execute_insert(
         """
         DELETE FROM boards WHERE id = %(table_id)s AND owner = %(username)s;

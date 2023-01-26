@@ -80,12 +80,12 @@ def delete_card(card_id):
 
 
 @app.route("/api/delete-board/<board_id>", methods=['DELETE'])
-@json_response
 def delete_board(board_id):
     if queries.get_board_type_by_id(board_id) == 'private' and session:
-        return queries.delete_private_board(board_id, session['username'])
+        queries.delete_board(board_id, session['username'])
     else:
-        return queries.delete_private_board(board_id)
+        queries.delete_board(board_id)
+    return Response('', status=204)
 
 
 @app.route("/api/statuses/<int:status_id>")
