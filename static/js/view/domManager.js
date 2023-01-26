@@ -40,7 +40,8 @@ export function initDropdown() {
             let addCardButton = document.getElementById(addCardButtonId);
             addCardButton.addEventListener('click', () => {
                 options.classList.remove('show');
-                return addCard(boardId, columnId);
+                addCard(boardId, columnId);
+                window.location.reload();
             });
         });
     });
