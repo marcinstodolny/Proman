@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {initDropdown} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
@@ -20,8 +21,9 @@ export let boardsManager = {
                 `#board-title_${board.id}`,
                 'click',
                 renameBoard
-            )
-        }
+            );
+        };
+        initDropdown();
     },
     creatingNewBoard: async function () {
         const newBoardBtn = document.querySelector('#new-board-btn');
@@ -61,6 +63,7 @@ function showHideButtonHandler(clickEvent) {
     if (board.classList.contains("hide-board")) {
         cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
+
     }
     else {
         cardsManager.deleteCards(boardId);

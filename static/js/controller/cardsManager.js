@@ -22,8 +22,13 @@ export let cardsManager = {
         for (let card of cards) {
             document.querySelector(`.card[data-card-id="${card.id}"]`).remove();
         }
-    },
+    }
 };
+
+export function addCard(boardId, statusId) {
+    let cardTitle = "new card"
+    return dataHandler.createNewCard(cardTitle, boardId, statusId);
+}
 
 function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;

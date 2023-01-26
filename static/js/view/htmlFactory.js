@@ -23,9 +23,27 @@ function boardBuilder(board, statuses) {
     for (let index= 0; index < statuses.length; index++) {
         columns += `
         <div class="board-column">
-            <div class="board-column-title">${statuses[index].title}</div>
+            <div class="board-column-title">
+                <div class="status">
+                    <div class="status-title">${statuses[index].title}</div>
+                    <div class="status-options">
+                        <div class="hamburger-btn" id="hamburger-btn-${statuses[index].id}${board.id}">
+                            <div class="hamburger-line"></div>
+                            <div class="hamburger-line"></div>
+                            <div class="hamburger-line"></div>
+                        </div>
+                        <ul class="options-menu" id="options-menu-hamburger-btn-${statuses[index].id}${board.id}">
+                            <li class="menu-item newCard" id="newCard${board.id}${statuses[index].id}">
+                                Add new card
+                            </li>
+                            <li class="menu-item">Rename column</li>
+                            <li class="menu-item">Delete column</li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
             <div class="board-column-content" 
-            data-column-id="board${board.id}_column{status[${index+1}}]"></div>
+            data-column-id="board${board.id}_column{status[${index + 1}}]"></div>
         </div>`;
         }
 
@@ -35,14 +53,13 @@ function boardBuilder(board, statuses) {
                         <span class="board-title" id="board-title_${board.id}" data-board-title-id="${board.id}">
                             ${board.title}
                         </span>
-                        <button class="board-add">Add Card</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>            
                     <div class ="board-columns hide-board" id=${board.id}>
                         ${columns}
                     </div>
                 </section>
-            </div>`;
+            </div>`
 }
 
 function cardBuilder(card) {

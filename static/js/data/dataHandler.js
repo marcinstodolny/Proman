@@ -25,7 +25,7 @@ export let dataHandler = {
         return await apiPost('/api/board', [{board_title : boardTitle, board_type: board_type}])
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
-        return await apiGet(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
+        return await apiPost(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
         // creates new card, saves it and calls the callback function with its data
     },
     deleteCard: async function (cardId) {
@@ -41,7 +41,6 @@ export let dataHandler = {
         } else {
             window.location.reload();
         }
-
     },
     register: async function(username, password) {
          return await apiPost("/register", [{username: username, password: password}]);
