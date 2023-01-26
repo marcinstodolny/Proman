@@ -11,7 +11,7 @@ export let cardsManager = {
             const content = cardBuilder(card);
             domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
             domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
+                `.card-remove[data-card-id="${card.id}"]`,
                 "click",
                 deleteButtonHandler
             );
