@@ -13,17 +13,28 @@ def get_card_status(status_id):
     return status
 
 
-def get_boards():
+def get_public_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
-        ;
+        WHERE type = 'public'
+        ORDER BY id;
+        """)
+
+
+def get_public_and_private_boards(username):
+    return data_manager.execute_select(
         """
-    )
+        (SELECT * FROM boards
+        WHERE type = 'public')
+        UNION
+        (SELECT * FROM boards
+        WHERE owner = %(username)s)
+        ORDER BY id;
+        """, {"username": username})
 
 
 def get_cards_for_board(board_id):
-
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards

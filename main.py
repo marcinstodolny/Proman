@@ -28,7 +28,10 @@ def get_boards():
     """
     All the boards
     """
-    return queries.get_boards()
+    if session:
+        return queries.get_public_and_private_boards(session['username'])
+    else:
+        return queries.get_public_boards()
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
