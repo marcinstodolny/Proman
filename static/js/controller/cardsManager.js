@@ -15,6 +15,8 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragstart",startDrag)
+            domManager.addEventListener(`.card[data-card-id="${card.id}"`, "dragend", endDrag)
         }
     },
     deleteCards: async function (boardId) {
@@ -30,4 +32,12 @@ function deleteButtonHandler(clickEvent) {
     let cardId = card.parentElement.dataset.cardId;
     card.parentElement.remove();
     dataHandler.deleteCard(cardId);
+}
+
+function startDrag(event) {
+    localStorage.setItem('dragged-item', event.target.dataset.cardId);
+}
+
+function endDrag() {
+    localStorage.removeItem('dragged-item');
 }
