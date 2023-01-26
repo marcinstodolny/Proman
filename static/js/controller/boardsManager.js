@@ -39,6 +39,22 @@ export let boardsManager = {
         add_event(newPrivateBoardBtn, newPrivateBoardContainer)
         await add_event2(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
         await add_event2(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+    },
+    modifyingColumns: function () {
+        const boardsColumnsContainers = document.querySelectorAll('.board-column-content');
+        boardsColumnsContainers.forEach((element) => {
+            element.addEventListener('drop', (event) => {
+                event.preventDefault()
+                const cardId = localStorage.getItem('dragged-item')
+                const card = document.querySelector(`.card[data-card-id="${cardId}"]`)
+                if (card.classList.contains("card")) {
+                    element.appendChild(card)
+                }
+            });
+            element.addEventListener('dragover', (event) => {
+                event.preventDefault()
+            })
+        })
     }
 };
 function add_event(boardBtn, BoardContainer){

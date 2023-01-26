@@ -47,7 +47,7 @@ function boardBuilder(board, statuses) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">
+    return `<div class="card" data-card-id="${card.id}" draggable="true">
                 <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
                 <div class="card-title">${card.title}</div>
             </div>`;

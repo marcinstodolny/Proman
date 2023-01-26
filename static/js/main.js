@@ -2,9 +2,8 @@ import {boardsManager} from "./controller/boardsManager.js";
 import {initModals} from "./controller/usersManager.js";
 
 function init() {
-    boardsManager.loadBoards();
+    boardsManager.loadBoards().then(boardsManager.modifyingColumns);
     initModals()
     boardsManager.creatingNewBoard();
-    // boardsManager.renameBoard();
 }
 init();
