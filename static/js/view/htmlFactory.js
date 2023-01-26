@@ -36,6 +36,7 @@ function boardBuilder(board, statuses) {
                             ${board.title}
                         </span>
                         <button class="board-add">Add Card</button>
+                        <button class="board-remove" data-board-id="${board.id}">Delete Board</button>
                         <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>            
                     <div class ="board-columns hide-board" id=${board.id}>

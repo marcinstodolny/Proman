@@ -75,6 +75,15 @@ def delete_card(card_id):
     return queries.delete_card(card_id)
 
 
+@app.route("/api/delete-board/<board_id>", methods=['DELETE'])
+@json_response
+def delete_board(board_id):
+    if queries.get_board_type_by_id(board_id) == 'private' and session:
+        return queries.delete_private_board(board_id, session['username'])
+    else:
+        return queries.delete_private_board(board_id)
+
+
 @app.route("/api/statuses/<int:status_id>")
 @json_response
 def get_status_title(status_id: int):
@@ -85,7 +94,6 @@ def get_status_title(status_id: int):
 @json_response
 def create_new_card(board_id: int, status_id: int, card_title):
     return queries.create_new_card(board_id, status_id, card_title)
-
 
 
 @app.route('/login', methods=['POST'])

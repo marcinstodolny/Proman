@@ -31,6 +31,9 @@ export let dataHandler = {
     deleteCard: async function (cardId) {
         return await apiDelete(`/api/delete-card/${cardId}`)},
 
+    deleteBoard: async function (boardId) {
+        return await apiDelete(`/api/delete-board/${boardId}`)},
+
     loginAttempt: async function(username, password) {
         let response = ''
          await apiPost("/login", [{username: username, password: password}])

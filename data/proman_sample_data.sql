@@ -61,7 +61,8 @@ INSERT INTO statuses(title) VALUES ('in progress');
 INSERT INTO statuses(title) VALUES ('testing');
 INSERT INTO statuses(title) VALUES ('done');
 
-INSERT INTO boards(title, type, owner) VALUES ('Board 1', 'public', 'test');
+INSERT INTO boards(title, type, owner) VALUES ('Board 1', 'private', 'test');
+INSERT INTO boards(title, type, owner) VALUES ('Board 3', 'public', '');
 INSERT INTO boards(title, type, owner) VALUES ('Board 2', 'private', 'admin');
 
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 1', 1);
@@ -84,7 +85,7 @@ INSERT INTO users VALUES (2, 'test', '$2b$12$BUsvilq2feigmR1aPM6UZeBWc/WlqVBUsP1
 ---
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
+    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE CASCADE;

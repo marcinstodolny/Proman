@@ -12,6 +12,11 @@ export let boardsManager = {
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
             domManager.addEventListener(
+                `.board-remove[data-board-id="${board.id}"]`,
+                "click",
+                deleteBoardButtonHandler
+            );
+            domManager.addEventListener(
                 `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
@@ -95,4 +100,11 @@ function renameBoard (board) {
             boardTitle.addEventListener('click', renameBoard);
         }
     })
+}
+
+function deleteBoardButtonHandler(clickEvent) {
+    const board = clickEvent.target;
+    let boardId = board.dataset.boardId;
+    board.parentElement.remove();
+    dataHandler.deleteBoard(boardId);
 }
