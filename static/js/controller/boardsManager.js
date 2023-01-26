@@ -83,7 +83,7 @@ function checkChildren(target) {
 
 function renameBoard (board) {
     const titleId = board.target.dataset['boardTitleId'];
-    let text = board.target.innerHTML;
+    let text = board.target.innerText;
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
