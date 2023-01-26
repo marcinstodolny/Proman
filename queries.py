@@ -36,11 +36,11 @@ def get_cards_for_board(board_id):
 
 
 def create_new_card(board_id, status_id, card_title):
-    new_card = data_manager.execute_select(
+    new_card = data_manager.execute_insert(
         """
         INSERT INTO cards 
         (board_id, status_id, title, card_order)
-        VALUES (%(b_id)s, %(s_id)s, %(title)s)
+        VALUES (%(b_id)s, %(s_id)s, %(title)s, 0)
         """
         , {'b_id': board_id, 's_id': status_id, 'title': card_title})
 

@@ -78,11 +78,10 @@ def get_status_title(status_id: int):
     return queries.get_card_status(status_id)
 
 
-@app.route("/api/boards/<int:board_id>/<int:status_id>/<card_title>")
+@app.route("/api/boards/<int:board_id>/<int:status_id>/<card_title>", methods=['POST'])
 @json_response
 def create_new_card(board_id: int, status_id: int, card_title):
     return queries.create_new_card(board_id, status_id, card_title)
-
 
 
 @app.route('/login', methods=['POST'])
