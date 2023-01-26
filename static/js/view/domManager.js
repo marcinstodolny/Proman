@@ -41,7 +41,6 @@ export function initDropdown() {
             addCardButton.addEventListener('click', () => {
                 options.classList.remove('show');
                 addCard(boardId, columnId);
-                window.location.reload();
             });
         });
     });

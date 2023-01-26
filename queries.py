@@ -75,6 +75,22 @@ def create_new_card(board_id, status_id, card_title):
     return new_card
 
 
+def get_last_card():
+    return data_manager.execute_select(
+        """
+        SELECT id FROM cards ORDER BY id DESC LIMIT 1;
+        """)
+
+
+def get_card_by_id(card_id):
+    return data_manager.execute_select(
+        """
+        SELECT * FROM cards 
+        WHERE id = %(card_id)s;
+        """
+        , {'card_id': card_id})
+
+
 # def rename_card(card_id, title):
 #     renamed_card = data_manager.execute_select(
 #         """

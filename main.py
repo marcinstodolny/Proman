@@ -100,6 +100,18 @@ def create_new_card(board_id: int, status_id: int, card_title):
     return queries.create_new_card(board_id, status_id, card_title)
 
 
+@app.route("/api/last-card")
+@json_response
+def get_last_card():
+    return queries.get_last_card()
+
+
+@app.route("/api/get-card/<int:card_id>")
+@json_response
+def get_card_by_id(card_id: int):
+    return queries.get_card_by_id(card_id)
+
+
 @app.route('/login', methods=['POST'])
 def login_attempt():
     data = request.json[0]

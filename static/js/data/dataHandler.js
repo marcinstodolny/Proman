@@ -17,8 +17,11 @@ export let dataHandler = {
         return await apiGet(`/api/boards/${boardId}/cards/`);
         // the board is retrieved and then the callback function is called with the cards
     },
+    getCardWithHighestId: async function() {
+        return await apiGet(`/api/last-card`);
+    },
     getCard: async function (cardId) {
-        return await apiGet(`/api/boards/${cardId}`);
+        return await apiGet(`/api/get-card/${cardId}`);
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle, board_type) {

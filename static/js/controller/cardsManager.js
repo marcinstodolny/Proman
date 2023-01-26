@@ -27,10 +27,17 @@ export let cardsManager = {
     },
 };
 
-export function addCard(boardId, statusId) {
-    let cardTitle = "new card"
-    return dataHandler.createNewCard(cardTitle, boardId, statusId);
+export async function addCard(boardId, statusId) {
+    let cardTitle = "new card";
+    await dataHandler.createNewCard(cardTitle, boardId, statusId);
+    let last_card = await dataHandler.getCardWithHighestId();
+    let cardId = last_card[0].id;
+    let card = await dataHandler.getCard(cardId);
+    const cardBuilder = htmlFactory(htmlTemplates.card);
+    const content = cardBuilder(card[0]);
+    domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
 }
+
 
 function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
