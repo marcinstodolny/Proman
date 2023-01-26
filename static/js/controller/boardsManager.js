@@ -107,4 +107,5 @@ function deleteBoardButtonHandler(clickEvent) {
     let boardId = board.dataset.boardId;
     board.parentElement.remove();
     dataHandler.deleteBoard(boardId);
+    window.location.reload()
 }
