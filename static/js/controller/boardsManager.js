@@ -122,10 +122,10 @@ function renameBoard (board) {
     })
 }
 
-function deleteBoardButtonHandler(clickEvent) {
+async function deleteBoardButtonHandler(clickEvent) {
     const board = clickEvent.target;
     let boardId = board.dataset.boardId;
     board.parentElement.remove();
-    dataHandler.deleteBoard(boardId);
+    await dataHandler.deleteBoard(boardId);
     window.location.reload()
 }
