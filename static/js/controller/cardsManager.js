@@ -36,8 +36,13 @@ export async function addCard(boardId, statusId) {
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card[0]);
     domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
-    domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragstart",startDrag)
-    domManager.addEventListener(`.card[data-card-id="${cardId}"`, "dragend", endDrag)
+    domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragstart",startDrag);
+    domManager.addEventListener(`.card[data-card-id="${cardId}"`, "dragend", endDrag);
+    domManager.addEventListener(
+                `.card-remove[data-card-id="${cardId}"]`,
+                "click",
+                deleteButtonHandler
+            );
 }
 
 
