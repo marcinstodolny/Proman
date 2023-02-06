@@ -67,6 +67,9 @@ export let dataHandler = {
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch(`/api/board/${boardId}`, [{title : boardNewName}]);
     },
+    update_card_status: async function(cardId, boardId, status){
+        return await apiPatch(`/api/update_card/${cardId}`, [{board_id: boardId, status_id: status}]);
+    }
 };
 
 async function apiGet(url) {
