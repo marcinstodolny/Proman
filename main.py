@@ -65,6 +65,7 @@ def rename_board(board_id: int):
 def rename_card(card_id: int):
     data = request.json[0]
     queries.rename_card(card_id, data['title'])
+    print(card_id, data['title'])
     return Response('', status=204)
 
 

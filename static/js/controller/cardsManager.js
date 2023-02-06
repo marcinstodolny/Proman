@@ -43,10 +43,29 @@ export async function addCard(boardId, statusId) {
                 "click",
                 deleteButtonHandler
             );
+    await cardRenaming(cardId);
 }
 
-// await dataHandler.renameCard(cardId, newCardName);
 
+async function cardRenaming (cardId){
+    const targetElement = document.querySelector(`.card[data-card-id="${cardId}"]`).querySelector(`.card-title`);
+    const oldCardName = targetElement.innerText;
+    targetElement.innerText = "";
+    domManager.addChild(`.card[data-card-id="${cardId}"]`, `<input id="new-card-input" placeholder="new card name">`);
+    const inputElement = document.getElementById("new-card-input");
+    inputElement.addEventListener("blur", (event) => {
+        if (event.target.value) {
+            const newCardName = event.target.value;
+            targetElement.innerText = newCardName;
+            dataHandler.renameCard(cardId, newCardName);
+        }
+        else {
+            targetElement.innerText = oldCardName;
+        }
+        document.getElementById("new-card-input").remove();
+    });
+    inputElement.focus();
+}
 function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
     let cardId = card.parentElement.dataset.cardId;
