@@ -119,6 +119,14 @@ def get_card_by_id(card_id: int):
     return queries.get_card_by_id(card_id)
 
 
+@app.route("/api/update_card/<int:card_id>", methods=['PATCH'])
+def update_card(card_id: int):
+    status_id = request.json[0]['status_id']
+    board_id = request.json[0]['board_id']
+    queries.update_card_status(card_id, board_id, status_id)
+    return Response('', status=204)
+
+
 @app.route('/login', methods=['POST'])
 def login_attempt():
     data = request.json[0]
