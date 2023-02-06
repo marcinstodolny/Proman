@@ -125,7 +125,6 @@ function renameBoard (board) {
 async function deleteBoardButtonHandler(clickEvent) {
     const board = clickEvent.target;
     let boardId = board.dataset.boardId;
-    board.parentElement.remove();
+    board.parentElement.parentElement.parentElement.remove();
     await dataHandler.deleteBoard(boardId);
-    window.location.reload()
 }
