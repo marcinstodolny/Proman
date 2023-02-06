@@ -91,16 +91,14 @@ def get_card_by_id(card_id):
         , {'card_id': card_id})
 
 
-# def rename_card(card_id, title):
-#     renamed_card = data_manager.execute_select(
-#         """
-#         UPDATE cards
-#         SET title = %(title)s
-#         WHERE id = %(card_id)s
-#         """
-#         , {'c_id': card_id, 'title': title})
-#
-#     return renamed_card
+def rename_card(card_id, title):
+    return data_manager.execute_select(
+        """
+        UPDATE cards
+        SET title = %(title)s
+        WHERE id = %(card_id)s
+        """
+        , {'c_id': card_id, 'title': title})
 
 
 def delete_card(card_id):

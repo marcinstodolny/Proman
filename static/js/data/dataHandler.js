@@ -61,6 +61,9 @@ export let dataHandler = {
     logout: async function(){
         return await apiGet('/logout')
     },
+    renameCard: async function(cardId, cardNewName){
+        return await apiPatch(`/api/card/${cardId}`, [{title : cardNewName}]);
+    },
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch(`/api/board/${boardId}`, [{title : boardNewName}]);
     },

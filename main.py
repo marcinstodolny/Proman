@@ -61,6 +61,13 @@ def rename_board(board_id: int):
     return Response('', status=204)
 
 
+@app.route('/api/card/<int:card_id>', methods=["PATCH"])
+def rename_card(card_id: int):
+    data = request.json[0]
+    queries.rename_card(card_id, data['title'])
+    return Response('', status=204)
+
+
 @app.route("/api/statuses")
 @json_response
 def get_statuses_for_board():

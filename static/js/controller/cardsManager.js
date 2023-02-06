@@ -45,6 +45,7 @@ export async function addCard(boardId, statusId) {
             );
 }
 
+// await dataHandler.renameCard(cardId, newCardName);
 
 function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
