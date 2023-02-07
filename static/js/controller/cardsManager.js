@@ -15,6 +15,11 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            domManager.addEventListener(
+                `.card-edit[data-card-id="${card.id}"]`,
+                "click",
+                cardRenaming
+            );
             domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragstart",startDrag)
             domManager.addEventListener(`.card[data-card-id="${card.id}"`, "dragend", endDrag)
         }
@@ -44,9 +49,11 @@ export async function addCard(boardId, statusId) {
                 deleteButtonHandler
             );
     await cardRenaming(cardId);
+    // const addCardButton = document.getElementById(addCardButtonId);
+    // addcardButton.removeEventListener('click', addCard)
 }
 
-async function cardRenaming (cardId){
+async function cardRenaming(cardId){
     const targetElement = document.querySelector(`.card[data-card-id="${cardId}"]`).querySelector(`.card-title`);
     const oldCardName = targetElement.innerText;
     targetElement.innerText = "";
