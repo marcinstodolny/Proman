@@ -130,11 +130,8 @@ async function deleteBoardButtonHandler(clickEvent) {
 
 
 export function initDropdown() {
-    console.log('ok');
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
     let optionMenus = document.querySelectorAll('.options-menu');
-    console.log(hamburgerButtons);
-    console.log(optionMenus);
     hamburgerButtons.forEach(button => {
         console.log(button.id);
         let buttonId = button.id;
