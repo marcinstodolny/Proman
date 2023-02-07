@@ -48,11 +48,18 @@ export async function addCard(boardId, statusId) {
                 "click",
                 deleteButtonHandler
             );
-    await cardRenaming(cardId);
+    await cardRenaming(null, cardId);
 }
 
-async function cardRenaming(cardId){
-    const targetElement = document.querySelector(`.card[data-card-id="${cardId}"]`).querySelector(`.card-title`);
+async function cardRenaming(event, cardId=null){
+    let targetElement;
+    if (cardId) {
+        targetElement = document.querySelector(`.card[data-card-id="${cardId}"]`).querySelector(`.card-title`);
+    }
+    else if (event) {
+        targetElement = event.target.parentElement.querySelector('.card-title');
+    }
+    cardId = targetElement.parentElement.dataset.cardId;
     const oldCardName = targetElement.innerText;
     targetElement.innerText = "";
     domManager.addChild(`.card[data-card-id="${cardId}"]`, `<input id="new-card-input" placeholder="new card name">`);

@@ -133,7 +133,6 @@ export function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
     let optionMenus = document.querySelectorAll('.options-menu');
     hamburgerButtons.forEach(button => {
-        console.log(button.id);
         let buttonId = button.id;
         let optionsId = "options-menu-"+buttonId;
         let options = document.getElementById(optionsId);
