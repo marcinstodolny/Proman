@@ -2,15 +2,13 @@ import data_manager
 
 
 def get_card_status(status_id):
-    status = data_manager.execute_select(
+    return data_manager.execute_select(
         """
         SELECT title FROM statuses s
         WHERE s.id = %(status_id)s
         ;
         """
         , {"status_id": status_id})
-
-    return status
 
 
 def get_public_boards():
@@ -31,7 +29,8 @@ def get_public_and_private_boards(username):
         (SELECT * FROM boards
         WHERE owner = %(username)s)
         ORDER BY id;
-        """, {"username": username})
+        """
+        , {"username": username})
 
 
 def delete_board(table_id, username=''):
@@ -144,15 +143,6 @@ def get_board_title(board_id):
         WHERE id = %(board_id)s
         """
         , {'b_id': board_id})
-
-
-def create_new_board(board_title, board_type, username=''):
-    return data_manager.execute_insert(
-        """
-        INSERT INTO boards (title, type, owner)
-        VALUES (%(title)s, %(type)s, %(owner)s)
-        """
-        , {"title": board_title, 'type': board_type, 'owner': username})
 
 
 def create_new_board(board_title, board_type, username=''):
