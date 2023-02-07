@@ -49,6 +49,11 @@ export async function addCard(boardId, statusId) {
                 deleteButtonHandler
             );
     await cardRenaming(null, cardId);
+    domManager.addEventListener(
+            `.card-edit[data-card-id="${cardId}"]`,
+            "click",
+            cardRenaming
+        );
 }
 
 async function cardRenaming(event, cardId=null){
