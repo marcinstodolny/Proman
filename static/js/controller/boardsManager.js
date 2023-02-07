@@ -27,20 +27,12 @@ export let boardsManager = {
                 'click',
                 renameBoard
             );
-        };
+        }
         initDropdown();
     },
     creatingNewBoard: async function () {
-        const newBoardBtn = document.querySelector('#new-board-btn');
-        const newBoardContainer = document.querySelector('#new-board-input-container');
-        const newBoardSaveBtn = document.querySelector('#save-new-board');
-        const newPrivateBoardBtn = document.querySelector('#new-private-board-btn');
-        const newPrivateBoardContainer = document.querySelector('#new-private-board-input-container');
-        const newPrivateBoardSaveBtn = document.querySelector('#save-new-private-board');
-        toggleBoardNameInput(newBoardBtn, newBoardContainer)
-        toggleBoardNameInput(newPrivateBoardBtn, newPrivateBoardContainer)
-        await createBoardButtonEvent(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
-        await createBoardButtonEvent(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+        await newBoardButtonCreation('public')
+        await newBoardButtonCreation('private')
     },
     modifyingColumns: function () {
         const boardsColumnsContainers = document.querySelectorAll('.board-column-content');
@@ -59,6 +51,14 @@ export let boardsManager = {
         })
     }
 };
+
+async function newBoardButtonCreation(type){
+    const newBoardBtn = document.querySelector(`#new-${type}-board-btn`);
+    const newBoardContainer = document.querySelector(`#new-${type}-board-input-container`);
+    const newBoardSaveBtn = document.querySelector(`#save-new-${type}-board`);
+    toggleBoardNameInput(newBoardBtn, newBoardContainer)
+    await createBoardButtonEvent(newBoardSaveBtn, document.querySelector(`#new-${type}-board-input`), type)
+}
 function toggleBoardNameInput(boardBtn, BoardContainer){
     boardBtn.addEventListener('click', () => {
             let newBoardContainerVisibility = BoardContainer.style.display;
@@ -73,7 +73,7 @@ async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
     BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
                 dataHandler.createNewBoard(boardName.value, type)
-                window.location.reload();
+                reloadBoardsAndCards()
             }
         })
 }
@@ -124,7 +124,16 @@ function renameBoard (board) {
 
 async function deleteBoardButtonHandler(clickEvent) {
     const board = clickEvent.target;
-    let boardId = board.dataset.boardId;
-    board.parentElement.parentElement.parentElement.remove();
+    io.connect('http://localhost:5000/').emit('delete board', board.dataset.boardId);
+}
+export async function removeBoard(boardId){
+    const board = document.querySelector(`[data-board-id="${boardId}"]`)
+    console.log(board, boardId)
+    board.parentElement.remove();
     await dataHandler.deleteBoard(boardId);
+}
+
+export async function reloadBoardsAndCards(){
+    await document.querySelectorAll('.board-container').forEach(board => board.innerHTML = '')
+    boardsManager.loadBoards().then(boardsManager.modifyingColumns);
 }

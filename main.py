@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, session, Response
 from dotenv import load_dotenv
 import datetime
-
+from flask_socketio import SocketIO, emit
 import password_management
 from util import json_response
 import mimetypes
@@ -10,6 +10,8 @@ import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins="*")
 app.secret_key = b'DevTeamMDM'
 load_dotenv()
 
@@ -20,6 +22,17 @@ def index():
     This is a one-pager which shows all the boards and cards
     """
     return render_template('index.html', session=session)
+
+
+@socketio.on('value changed')
+def value_changed(message):
+    print(message)
+    emit('update value', broadcast=True)
+
+
+@socketio.on('delete board')
+def delete_board(board_id):
+    emit('delete board', board_id, broadcast=True)
 
 
 @app.route("/api/boards")
@@ -149,11 +162,12 @@ def logout():
 
 
 def main():
-    app.run(debug=True)
+    # app.run(debug=True)
+    socketio.run(app, host='0.0.0.0')
 
     # Serving the favicon
-    with app.app_context():
-        app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
+    # with app.app_context():
+    #     app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
 
 
 if __name__ == '__main__':
