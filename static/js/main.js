@@ -1,10 +1,10 @@
 import {boardsManager} from "./controller/boardsManager.js";
 import {initModals} from "./controller/usersManager.js";
 
-function init() {
+async function init() {
     boardsManager.loadBoards().then(boardsManager.modifyingColumns);
-    initModals();
-    boardsManager.creatingNewBoard();
+    await initModals();
+    await boardsManager.creatingNewBoard();
 }
 
-init();
+await init();

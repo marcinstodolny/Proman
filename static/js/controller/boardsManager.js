@@ -6,8 +6,8 @@ import {addCard, cardsManager} from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        const statuses = await dataHandler.getStatuses();
         for (let board of boards) {
+            const statuses = await dataHandler.getStatuses(board.id);
             const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
@@ -27,7 +27,7 @@ export let boardsManager = {
                 renameBoard
             );
         }
-        initDropdown();
+        await initDropdown();
     },
     creatingNewBoard: async function () {
         const newBoardBtn = document.querySelector('#new-board-btn');
@@ -77,17 +77,17 @@ async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
         })
 }
 
-function showHideButtonHandler(clickEvent) {
+async function showHideButtonHandler(clickEvent) {
     clickEvent.target.classList.toggle("flip");
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
     if (board.classList.contains("hide-board")) {
-        cardsManager.loadCards(boardId);
+        await cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
 
     }
     else {
-        cardsManager.deleteCards(boardId);
+        await cardsManager.deleteCards(boardId);
         board.classList.add("hide-board");
     }
 }
@@ -106,12 +106,12 @@ function renameBoard (board) {
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
-    input.addEventListener('keyup', function test(event) {
+    input.addEventListener('keyup', async function test(event) {
         if (event.code === "Enter" ) {
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
-            dataHandler.renameBoard(titleId, inputText);
+            await dataHandler.renameBoard(titleId, inputText);
             boardTitle.addEventListener('click', renameBoard);
         } else if (event.code === "Escape") {
             event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
@@ -129,7 +129,7 @@ async function deleteBoardButtonHandler(clickEvent) {
 }
 
 
-export function initDropdown() {
+export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
     let optionMenus = document.querySelectorAll('.options-menu');
     hamburgerButtons.forEach(button => {

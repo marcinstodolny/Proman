@@ -51,6 +51,8 @@ def create_new_board():
         queries.create_new_board(data['board_title'], data['board_type'])
     else:
         queries.create_new_board(data['board_title'], data['board_type'], session['username'])
+    board_id = queries.get_board_id(data['board_title'])
+    queries.create_default_statuses(board_id[0]['id'])
     return Response('', status=201)
 
 
@@ -69,10 +71,10 @@ def rename_card(card_id: int):
     return Response('', status=204)
 
 
-@app.route("/api/statuses")
+@app.route("/api/<int:board_id>/statuses")
 @json_response
-def get_statuses_for_board():
-    return queries.get_statuses()
+def get_statuses_for_board(board_id: int):
+    return queries.get_statuses(board_id)
 
 
 @app.route("/api/boards/<int:board_id>")
@@ -93,6 +95,7 @@ def delete_board(board_id):
         queries.delete_board(board_id, session['username'])
     else:
         queries.delete_board(board_id)
+    queries.delete_boards_statuses(board_id)
     return Response('', status=204)
 
 
@@ -128,10 +131,26 @@ def update_card(card_id: int):
     return Response('', status=204)
 
 
+# create_new_status(board_id, title)
+
+@app.route('/api/new-status', methods=['POST'])
+def create_new_status():
+    data = request.json[0]
+    queries.create_new_status(data['board_id'], data['new_status'])
+    return Response('', status=201)
+
+
+@app.route('/api/rename-status', methods=['PATCH'])
+def rename_status():
+    data = request.json[0]
+    queries.rename_status(data['status_id'], data['new_status'])
+    return Response('', status=201)
+
+
 @app.route('/login', methods=['POST'])
 def login_attempt():
     data = request.json[0]
-    if queries.is_user_exist(data['username']) \
+    if queries.does_user_exist(data['username']) \
             and password_management.verify_password(data['password'],
                                                     queries.get_user_password(data['username'])[0]['password']):
         session['username'] = data['username']
@@ -151,10 +170,10 @@ def register():
     return 'ok'
 
 
-@app.route("/is_user_exist", methods=['POST'])
-def is_user_exist():
+@app.route("/does_user_exist", methods=['POST'])
+def does_user_exist():
     username = request.json[0]['username']
-    return {'message': bool(queries.is_user_exist(username))}
+    return {'message': bool(queries.does_user_exist(username))}
 
 
 @app.route('/logout')

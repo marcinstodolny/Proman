@@ -5,31 +5,29 @@ export let dataHandler = {
     getBoard: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}`);
     },
-    getStatuses: async function () {
-        return await apiGet(`/api/statuses`);
-        // the statuses are retrieved and then the callback function is called with the statuses
+    getStatuses: async function (boardId) {
+        return await apiGet(`/api/${boardId}/statuses`);
     },
-    getStatus: async function (statusId) {
-        return await apiGet(`/api/statuses/${statusId}`);
-        // the status is retrieved and then the callback function is called with the status
+    createStatus: async function (boardId, newStatus) {
+        return await apiPost(`/api/new-status`, [{board_id : boardId, new_status: newStatus}]);
+    },
+    renameStatus: async function (statusId, newStatus) {
+        return await apiPatch(`/api/rename-status`, [{status_id : statusId, new_status: newStatus}]);
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
-        // the board is retrieved and then the callback function is called with the cards
     },
     getCardWithHighestId: async function() {
         return await apiGet(`/api/last-card`);
     },
     getCard: async function (cardId) {
         return await apiGet(`/api/get-card/${cardId}`);
-        // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle, board_type) {
         return await apiPost('/api/new-board', [{board_title : boardTitle, board_type: board_type}])
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         return await apiPost(`/api/boards/${boardId}/${statusId}/${cardTitle}`)
-        // creates new card, saves it and calls the callback function with its data
     },
     deleteCard: async function (cardId) {
         return await apiDelete(`/api/delete-card/${cardId}`)},
@@ -52,9 +50,9 @@ export let dataHandler = {
          return await apiPost("/register", [{username: username, password: password}]);
     },
 
-    is_user_exist: async function(username) {
+    does_user_exist: async function(username) {
         let result = ''
-        await apiPost("/is_user_exist", [{username: username}]).then(data => data.json())
+        await apiPost("/does_user_exist", [{username: username}]).then(data => data.json())
              .then(data => result = data['message']);
          return result;
     },
