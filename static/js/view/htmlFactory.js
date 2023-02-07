@@ -25,7 +25,7 @@ function boardBuilder(board, statuses) {
         <div class="board-column">
             <div class="board-column-title">
                 <div class="status">
-                    <div class="status-title">${statuses[index].title}</div>
+                    <div class="status-title" data-status-id="${statuses[index].id}">${statuses[index].title}</div>
                     <div class="status-options">
                         <div class="hamburger-btn" id="hamburger-btn-${statuses[index].id}${board.id}">
                             <div class="hamburger-line"></div>

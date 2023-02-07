@@ -96,6 +96,10 @@ function startDrag(event) {
     localStorage.setItem('dragged-item', event.target.dataset.cardId);
 }
 
-function endDrag() {
+function endDrag(event) {
     localStorage.removeItem('dragged-item');
+    const cardId = event.target.dataset['cardId'];
+    const boardId = event.target.parentElement.parentElement.parentElement.id;
+    const columnStatus = event.target.parentElement.parentElement.children[0].children[0].children[0].dataset['statusId'];
+    dataHandler.update_card_status(cardId, boardId,columnStatus);
 }

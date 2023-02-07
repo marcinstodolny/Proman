@@ -174,3 +174,12 @@ def get_user_password(username):
             WHERE username = %(username)s
         """
         , {"username": username})
+
+
+def update_card_status(card_id, board_id, status_id):
+    return data_manager.execute_insert(
+        """
+        UPDATE cards
+        SET status_id = %(status)s, board_id = %(board_id)s
+        WHERE id = %(card_id)s
+        """, {"card_id": card_id, "board_id": board_id, "status": status_id})
