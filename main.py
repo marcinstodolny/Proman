@@ -131,8 +131,6 @@ def update_card(card_id: int):
     return Response('', status=204)
 
 
-# create_new_status(board_id, title)
-
 @app.route('/api/new-status', methods=['POST'])
 def create_new_status():
     data = request.json[0]
