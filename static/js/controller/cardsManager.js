@@ -49,8 +49,6 @@ export async function addCard(boardId, statusId) {
                 deleteButtonHandler
             );
     await cardRenaming(cardId);
-    // const addCardButton = document.getElementById(addCardButtonId);
-    // addcardButton.removeEventListener('click', addCard)
 }
 
 async function cardRenaming(cardId){

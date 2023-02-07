@@ -26,7 +26,7 @@ export let boardsManager = {
                 'click',
                 renameBoard
             );
-        };
+        }
         initDropdown();
     },
     creatingNewBoard: async function () {
