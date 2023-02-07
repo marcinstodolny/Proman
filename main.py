@@ -152,7 +152,6 @@ def login_attempt():
             and password_management.verify_password(data['password'],
                                                     queries.get_user_password(data['username'])[0]['password']):
         session['username'] = data['username']
-        # session['id'] = data_manager.get_user_id(session['username'])[0]['id']
         return {'message': 'Ok'}
     return {'message': 'Invalid login attempt'}
 
@@ -164,7 +163,6 @@ def register():
     time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     queries.insert_new_user(data['username'], hashed_password, time)
     session['username'] = data['username']
-    # session['id'] = data_manager.get_user_id(session['username'])[0]['id']
     return 'ok'
 
 
@@ -177,7 +175,6 @@ def does_user_exist():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    # session.pop('id', None)
     return {'message': 'Ok'}
 
 
