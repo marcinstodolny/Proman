@@ -37,10 +37,10 @@ export let boardsManager = {
         const newPrivateBoardBtn = document.querySelector('#new-private-board-btn');
         const newPrivateBoardContainer = document.querySelector('#new-private-board-input-container');
         const newPrivateBoardSaveBtn = document.querySelector('#save-new-private-board');
-        add_event(newBoardBtn, newBoardContainer)
-        add_event(newPrivateBoardBtn, newPrivateBoardContainer)
-        await add_event2(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
-        await add_event2(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
+        toggleBoardNameInput(newBoardBtn, newBoardContainer)
+        toggleBoardNameInput(newPrivateBoardBtn, newPrivateBoardContainer)
+        await createBoardButtonEvent(newBoardSaveBtn, document.querySelector('#new-board-input'), 'public')
+        await createBoardButtonEvent(newPrivateBoardSaveBtn, document.querySelector('#new-private-board-input'), 'private')
     },
     modifyingColumns: function () {
         const boardsColumnsContainers = document.querySelectorAll('.board-column-content');
@@ -59,7 +59,7 @@ export let boardsManager = {
         })
     }
 };
-function add_event(boardBtn, BoardContainer){
+function toggleBoardNameInput(boardBtn, BoardContainer){
     boardBtn.addEventListener('click', () => {
             let newBoardContainerVisibility = BoardContainer.style.display;
             if (newBoardContainerVisibility === "block"){
@@ -69,7 +69,7 @@ function add_event(boardBtn, BoardContainer){
             }
         });
 }
-async function add_event2(BoardSaveBtn, boardName, type){
+async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
     BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
                 dataHandler.createNewBoard(boardName.value, type)
