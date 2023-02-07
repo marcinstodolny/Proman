@@ -20,6 +20,29 @@
 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+        <script type="module" charset="utf-8" defer>
+        import {loadBoard, removeBoard, reloadBoardsAndCards} from "../static/js/controller/boardsManager.js";
+
+        $(document).ready(function(){
+            let socket = io.connect('http://localhost:5000/');
+            $('button.sync').on('click', function(event) {
+                socket.emit('create board');
+                return false;
+            });
+            socket.on('create board', function(board) {
+                if (board.owner === '{{ session.username }}' || board.type === 'public'){
+                    loadBoard(board)
+                    // initDropdown, button event and card creation ONLY to this one after creation
+                }
+
+            });
+            socket.on('delete board', function(boardId) {
+                removeBoard(boardId)
+            });
+        });
+    </script>
     </head>
     <body>
     {% if session['username'] %}
@@ -41,21 +64,23 @@
             <button id='register-btn'>register</button>
         </div>
     {% endif %}
+     <br>
+    <button id="refresh">Refresh</button>
         <div id="root">
         <div id="navbar-container">
             <ul id="navbar-list">
                 <li><h2>ProMan</h2></li>
-                <li class="new-board-container" id="new-board-input-container">
-                    <input id="new-board-input" placeholder="Insert new board name">
-                    <button id="save-new-board">Save</button>
+                 <li class="new-board-container" id="new-public-board-input-container" style="display: none">
+                    <input id="new-public-board-input" placeholder="Insert new board name">
+                    <button id="save-new-public-board" class="sync">Save</button>
                 </li>
                 <li class="new-board-container">
-                    <button id="new-board-btn">New board</button>
+                   <button id="new-public-board-btn">New board</button>
                 </li><br><br>
                 {% if session['username'] %}
                 <li class="new-board-container" id="new-private-board-input-container">
                     <input id="new-private-board-input" placeholder="Insert new board name">
-                    <button id="save-new-private-board">Save</button>
+                    <button id="save-new-private-board" class="sync">Save</button>
                 </li>
                 <li class="new-board-container">
                     <button id="new-private-board-btn">New private board</button>
@@ -72,6 +97,7 @@
                     </div>
                 {% endif %}
             </ul>
+        </div>
         </div>
     </body>
     <div id="myModal" class="modal">

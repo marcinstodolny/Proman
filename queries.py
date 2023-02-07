@@ -183,3 +183,14 @@ def update_card_status(card_id, board_id, status_id):
         SET status_id = %(status)s, board_id = %(board_id)s
         WHERE id = %(card_id)s
         """, {"card_id": card_id, "board_id": board_id, "status": status_id})
+
+
+def get_recently_created_board():
+    return data_manager.execute_select(
+        """
+        SELECT *
+        FROM boards
+        ORDER BY id DESC
+        LIMIT 1
+        """
+)
