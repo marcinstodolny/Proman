@@ -22,6 +22,9 @@ export let dataHandler = {
     getCardWithHighestId: async function() {
         return await apiGet(`/api/last-card`);
     },
+    getLastStatusId: async function() {
+        return await apiGet(`/api/last-status`);
+    },
     getCard: async function (cardId) {
         return await apiGet(`/api/get-card/${cardId}`);
     },

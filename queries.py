@@ -146,6 +146,13 @@ def get_statuses(board_id):
         , {'board_id': board_id})
 
 
+def get_last_status_id():
+    return data_manager.execute_select(
+        """
+        SELECT id FROM statuses ORDER BY id DESC LIMIT 1;
+        """)
+
+
 def get_board_title(board_id):
     return data_manager.execute_select(
         """

@@ -111,6 +111,10 @@ section.board{
     text-align: center;
 }
 
+.input{
+    width: 70%;
+}
+
 .card{
     position: relative;
     background: #222;

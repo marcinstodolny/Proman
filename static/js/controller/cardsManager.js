@@ -74,11 +74,12 @@ async function cardRenaming(event, cardId=null){
     targetElement.innerText = "";
     if(oldCardName!=="new card"){
         domManager.addChild(`.card[data-card-id="${cardId}"]`,
-            `<input id="new-card-input" value="${oldCardName}" placeholder="${oldCardName}">`);
+            `<input id="new-card-input" class="input"
+ value="${oldCardName}" placeholder="${oldCardName}">`);
     }
     else{
         domManager.addChild(`.card[data-card-id="${cardId}"]`,
-            `<input id="new-card-input" placeholder="${oldCardName}">`);
+            `<input id="new-card-input" class="input" placeholder="${oldCardName}">`);
     }
     const inputElement = document.getElementById("new-card-input");
     function handleCardRename(){

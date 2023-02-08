@@ -1,6 +1,7 @@
 import {addCard} from "./cardsManager.js";
 import {dataHandler} from "../data/dataHandler.js";
 import {domManager} from "../view/domManager.js";
+import {reloadBoardsAndCards} from "./boardsManager.js";
 
 export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
@@ -37,24 +38,14 @@ function getActionButton(actionName, columnId){
     return document.getElementById(actionName+columnId);
 }
 
-async function columnRenaming(columnId){
-    let targetElement = document.querySelector(`.status-title[data-status-id="${columnId}"]`);
+async function columnRenaming(statusId){
+    let targetElement = document.querySelector(`.status-title[data-status-id="${statusId}"]`);
     const oldStatus = targetElement.innerText;
     targetElement.innerText = "";
-    domManager.addChild(`.status-title[data-status-id="${columnId}"]`,
-        `<input id="new-status-input" value="${oldStatus}" placeholder="${oldStatus}">`);
+    domManager.addChild(`.status-title[data-status-id="${statusId}"]`,
+        `<input id="new-status-input" class="input" value="${oldStatus}" placeholder="${oldStatus}">`);
     const inputElement = document.getElementById("new-status-input");
-    function handleColumnRename(){
-        if (inputElement.value) {
-            const newStatus = inputElement.value;
-            targetElement.innerText = newStatus;
-            dataHandler.renameStatus(columnId, newStatus);
-        }
-        else {
-            targetElement.innerText = oldStatus;
-        }
-        document.getElementById("new-status-input").remove();
-    }
+
     inputElement.addEventListener("blur", handleColumnRename);
     inputElement.addEventListener("keyup", (event) => {
         if (event.key === "Enter") {
@@ -62,6 +53,17 @@ async function columnRenaming(columnId){
         }
     });
     inputElement.focus();
+    function handleColumnRename(){
+        if (inputElement.value) {
+            const newStatus = inputElement.value;
+            targetElement.innerText = newStatus;
+            dataHandler.renameStatus(statusId, newStatus);
+        }
+        else {
+            targetElement.innerText = oldStatus;
+        }
+        inputElement.remove();
+    }
 }
 
 async function statusRemoval(columnId){
@@ -70,4 +72,41 @@ async function statusRemoval(columnId){
     targetElement.innerHTML = "";
     targetElement.remove();
 
+}
+
+export async function addColumnButtonHandler(clickEvent){
+    const addColumnButton = clickEvent.target;
+    const boardId = addColumnButton.dataset.boardId
+    const newStatus = "new card";
+    await dataHandler.createStatus(boardId, newStatus);
+    const statusId = dataHandler.getLastStatusId();
+    const board = document.getElementById(`${boardId}`);
+    const content = createColumn(boardId, statusId, newStatus);
+    board.innerHTML += content;
+    await columnRenaming(statusId);
+}
+
+function createColumn(boardId, statusId, newStatus) {
+    return `<div class="board-column" data-status-id="${statusId}">
+            <div class="board-column-title">
+                <div class="status">
+                    <div class="status-title" data-status-id="${statusId}">${newStatus}</div>
+                    <div class="status-options">
+                        <div class="hamburger-btn" id="btn-${boardId}" data-status-id="${statusId}">
+                            <div class="hamburger-line"></div>
+                            <div class="hamburger-line"></div>
+                            <div class="hamburger-line"></div>
+                        </div>
+                        <ul class="options-menu" id="btn-options-${statusId}" >
+                            <li class="menu-item" id="newCard${statusId}">Add new card</li>
+                            <li class="menu-item" id="renameColumn${statusId}">Rename column</li>
+                            <li class="menu-item" id="deleteColumn${statusId}">Delete column</li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            <div class="board-column-content" 
+                data-board-id="${boardId}"
+                data-column-id="${statusId}"></div>
+        </div>`;
 }

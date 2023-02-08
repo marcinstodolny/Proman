@@ -1,7 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
-import {initDropdown} from "./statusesManager.js";
+import {initDropdown, addColumnButtonHandler} from "./statusesManager.js";
 import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
@@ -47,24 +47,29 @@ export let boardsManager = {
 export async function loadBoard(board){
     const statuses = await dataHandler.getStatuses(board.id);
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
-            const content = boardBuilder(board, statuses);
-            domManager.addChild("#root", content);
-            domManager.addEventListener(
-                `.board-remove[data-board-id="${board.id}"]`,
-                "click",
-                deleteBoardButtonHandler
-            );
-            domManager.addEventListener(
-                `.board-toggle[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
-            domManager.addEventListener(
-                `#board-title_${board.id}`,
-                'click',
-                renameBoard
-            );
-            await initDropdown();
+    const content = boardBuilder(board, statuses);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.board-remove[data-board-id="${board.id}"]`,
+        "click",
+        deleteBoardButtonHandler
+    );
+    domManager.addEventListener(
+        `.column-add[data-board-id="${board.id}"]`,
+        "click",
+        addColumnButtonHandler
+    );
+    domManager.addEventListener(
+        `.board-toggle[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+    domManager.addEventListener(
+        `#board-title_${board.id}`,
+        'click',
+        renameBoard
+    );
+    await initDropdown();
 }
 
 async function newBoardButtonCreation(type){
@@ -101,7 +106,6 @@ async function showHideButtonHandler(clickEvent) {
     if (board.classList.contains("hide-board")) {
         await cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
-
     }
     else {
         await cardsManager.deleteCards(boardId);

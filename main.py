@@ -136,6 +136,11 @@ def get_last_card():
     return queries.get_last_card()
 
 
+@app.route("/api/last-status")
+def get_last_status():
+    return queries.get_last_status_id()[0]['id']
+
+
 @app.route("/api/get-card/<int:card_id>")
 @json_response
 def get_card_by_id(card_id: int):
