@@ -99,6 +99,12 @@ def delete_board(board_id):
     return Response('', status=204)
 
 
+@app.route("/api/delete-status/<status_id>", methods=['DELETE'])
+def delete_status(status_id):
+    queries.delete_status(status_id)
+    return Response('', status=204)
+
+
 @app.route("/api/statuses/<int:status_id>")
 @json_response
 def get_status_title(status_id: int):

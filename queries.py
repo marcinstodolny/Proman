@@ -127,11 +127,21 @@ def delete_boards_statuses(board_id):
         , {'board_id': board_id})
 
 
+def delete_status(status_id):
+    return data_manager.execute_insert(
+        """
+        DELETE FROM statuses
+        WHERE id = %(status_id)s
+        """
+        , {'status_id': status_id})
+
+
 def get_statuses(board_id):
     return data_manager.execute_select(
         """
         SELECT * FROM statuses
         WHERE board_id = %(board_id)s
+        ORDER BY id
         """
         , {'board_id': board_id})
 

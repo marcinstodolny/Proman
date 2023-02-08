@@ -14,6 +14,8 @@ export let dataHandler = {
     renameStatus: async function (statusId, newStatus) {
         return await apiPatch(`/api/rename-status`, [{status_id : statusId, new_status: newStatus}]);
     },
+    deleteStatus: async function (statusId) {
+        return await apiDelete(`/api/delete-status/${statusId}`)},
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
     },
@@ -31,7 +33,6 @@ export let dataHandler = {
     },
     deleteCard: async function (cardId) {
         return await apiDelete(`/api/delete-card/${cardId}`)},
-
     deleteBoard: async function (boardId) {
         return await apiDelete(`/api/delete-board/${boardId}`)},
 

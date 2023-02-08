@@ -33,11 +33,9 @@ function boardBuilder(board, statuses) {
                             <div class="hamburger-line"></div>
                         </div>
                         <ul class="options-menu" id="btn-options-${status.id}" >
-                            <li class="menu-item newCard" id="newCard${board.id}${status.id}">
-                                Add new card
-                            </li>
-                            <li class="menu-item">Rename column</li>
-                            <li class="menu-item">Delete column</li>
+                            <li class="menu-item" id="newCard${status.id}">Add new card</li>
+                            <li class="menu-item" id="renameColumn${status.id}">Rename column</li>
+                            <li class="menu-item" id="deleteColumn${status.id}">Delete column</li>
                         </ul>
                     </div>
                     </div>
