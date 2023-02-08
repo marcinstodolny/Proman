@@ -135,10 +135,21 @@ def get_card_by_id(card_id: int):
 
 
 @app.route("/api/update_card/<int:card_id>", methods=['PATCH'])
-def update_card(card_id: int):
-    status_id = request.json[0]['status_id']
+def update_card_on_empty_column(card_id: int):
+    column_id = request.json[0]['column_id']
     board_id = request.json[0]['board_id']
-    queries.update_card_status(card_id, board_id, status_id)
+    card_order = 0
+    queries.update_card_order(card_id, board_id, column_id, card_order)
+    return Response('', status=204)
+
+
+@app.route('/api/update_cards_order', methods=['PATCH'])
+def update_cards_order():
+    ordered_cards = request.json[0]['ordered_cards_list']
+    board_id = request.json[0]['board_id']
+    column_id = request.json[0]['column_id']
+    for count, id in enumerate(ordered_cards):
+        queries.update_card_order(id, board_id, column_id, count)
     return Response('', status=204)
 
 
@@ -180,7 +191,7 @@ def logout():
 
 def main():
     # app.run(debug=True)
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True)
 
     # Serving the favicon
     with app.app_context():

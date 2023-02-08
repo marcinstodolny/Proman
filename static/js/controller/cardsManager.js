@@ -9,7 +9,7 @@ export let cardsManager = {
             let statusId = card.status_id;
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
-            domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
+            domManager.addChild(`.board-column-content[data-board-id="${boardId}"][data-column-id="${statusId}"]`, content);
             domManager.addEventListener(
                 `.card-remove[data-card-id="${card.id}"]`,
                 "click",
@@ -21,7 +21,8 @@ export let cardsManager = {
                 cardRenaming
             );
             domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragstart",startDrag)
-            domManager.addEventListener(`.card[data-card-id="${card.id}"`, "dragend", endDrag)
+            domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragenter", setCardIdToLocalStorage)
+            domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragend", endDrag)
         }
     },
     deleteCards: async function (boardId) {
@@ -32,6 +33,10 @@ export let cardsManager = {
     },
 };
 
+function setCardIdToLocalStorage(event){
+    localStorage.setItem('previousCardId', event.target.parentElement.dataset['cardId'])
+}
+
 export async function addCard(boardId, statusId) {
     let cardTitle = "new card";
     await dataHandler.createNewCard(cardTitle, boardId, statusId);
@@ -40,9 +45,9 @@ export async function addCard(boardId, statusId) {
     let card = await dataHandler.getCard(cardId);
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card[0]);
-    domManager.addChild(`.board-column-content[data-column-id="board${boardId}_column{status[${statusId}}]"]`, content);
+    domManager.addChild(`.board-column-content[data-board-id="${boardId}"][data-column-id="${statusId}"]`, content);
     domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragstart",startDrag);
-    domManager.addEventListener(`.card[data-card-id="${cardId}"`, "dragend", endDrag);
+    domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragend", endDrag);
     domManager.addEventListener(
                 `.card-remove[data-card-id="${cardId}"]`,
                 "click",
@@ -102,9 +107,27 @@ function startDrag(event) {
 }
 
 function endDrag(event) {
+    let orderedCardsList = [];
+    const previousCardId = localStorage.getItem('previousCardId');
+    const columnBoardId = localStorage.getItem('columnBoardId');
+    const columnId = localStorage.getItem('columnId');
+    const emptyColumn = localStorage.getItem('emptyColumn');
+    const draggedCardId = event.target.dataset['cardId'];
+    const previousElement = document.querySelector(`.card[data-card-id="${previousCardId}"]`);
+
+    if(previousElement && (previousElement.dataset['cardId'] !== draggedCardId)){
+        previousElement.after(event.target)
+        const columnContent = event.target.parentElement.children;
+        Object.values(columnContent).forEach(element => orderedCardsList.push(element.dataset['cardId']))
+        dataHandler.updateCardsStatus(orderedCardsList, columnBoardId, columnId);
+    }
+
+    if(emptyColumn === "true"){
+        dataHandler.updateCardStatusOnEmptyColumn(draggedCardId, columnBoardId, columnId)
+        localStorage.removeItem('columnBoardId')
+        localStorage.removeItem('columnId')
+        localStorage.removeItem('emptyColumn')
+    }
+
     localStorage.removeItem('dragged-item');
-    const cardId = event.target.dataset['cardId'];
-    const boardId = event.target.parentElement.parentElement.parentElement.id;
-    const columnStatus = event.target.parentElement.parentElement.children[0].children[0].children[0].dataset['statusId'];
-    dataHandler.update_card_status(cardId, boardId,columnStatus);
 }

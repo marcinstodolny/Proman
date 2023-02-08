@@ -67,8 +67,20 @@ export let dataHandler = {
     renameBoard: async function(boardId, boardNewName){
         return await apiPatch(`/api/board/${boardId}`, [{title : boardNewName}]);
     },
-    update_card_status: async function(cardId, boardId, status){
-        return await apiPatch(`/api/update_card/${cardId}`, [{board_id: boardId, status_id: status}]);
+    updateCardStatusOnEmptyColumn: async function(draggedCardId, boardId, columnId){
+        return await apiPatch(`/api/update_card/${draggedCardId}`,
+            [{
+                    board_id: boardId,
+                    column_id: columnId
+                }]);
+    },
+    updateCardsStatus: async function(orderedCardsList, boardId, columnId){
+        return await  apiPatch('/api/update_cards_order',
+        [{
+                ordered_cards_list: orderedCardsList,
+                board_id: boardId,
+                column_id: columnId
+            }]);
     }
 };
 

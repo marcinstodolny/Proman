@@ -56,7 +56,7 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
-        ;
+        ORDER BY card_order
         """
         , {"board_id": board_id})
 
@@ -176,13 +176,13 @@ def get_user_password(username):
         , {"username": username})
 
 
-def update_card_status(card_id, board_id, status_id):
+def update_card_order(card_id, board_id, column_id, card_order):
     return data_manager.execute_insert(
         """
         UPDATE cards
-        SET status_id = %(status)s, board_id = %(board_id)s
-        WHERE id = %(card_id)s
-        """, {"card_id": card_id, "board_id": board_id, "status": status_id})
+        SET board_id = %(board_id)s, status_id = %(column_id)s, card_order = %(card_order)s
+        WHERE id = %(card_id)s;
+        """, {"card_id": card_id, "board_id": board_id, "column_id": column_id, "card_order": card_order})
 
 
 def get_recently_created_board():

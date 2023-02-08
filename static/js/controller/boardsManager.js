@@ -9,7 +9,7 @@ export let boardsManager = {
         for (let board of boards) {
             await loadBoard(board)
         }
-        initDropdown();
+        // initDropdown();
     },
     creatingNewBoard: async function () {
          await newBoardButtonCreation('public')
@@ -28,10 +28,22 @@ export let boardsManager = {
             });
             element.addEventListener('dragover', (event) => {
                 event.preventDefault()
+            });
+            element.addEventListener('dragenter', (event) => {
+                if(event.target.classList.contains('board-column-content')){
+                    const boardId = event.target.dataset['boardId']
+                    const columnId = event.target.dataset['columnId']
+                    saveTargetElementToLocalStorage("true", boardId, columnId)
+                } else if(event.target.parentElement.classList.contains('card')){
+                    const boardId = event.target.parentElement.parentElement.dataset['boardId']
+                    const columnId = event.target.parentElement.parentElement.dataset['columnId']
+                    saveTargetElementToLocalStorage("false", boardId, columnId)
+                }
             })
         })
     }
 };
+
 export async function loadBoard(board){
     const statuses = await dataHandler.getStatuses();
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
@@ -72,6 +84,7 @@ function toggleBoardNameInput(boardBtn, BoardContainer){
             }
         });
 }
+
 async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
     BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
@@ -129,6 +142,7 @@ async function deleteBoardButtonHandler(clickEvent) {
     const boardId = board.dataset.boardId
     io.connect('http://localhost:5000/').emit('delete board', boardId);
 }
+
 export async function removeBoard(boardId){
     const board = document.querySelector(`[data-board-id="${boardId}"]`)
     if (board != null){
@@ -136,7 +150,6 @@ export async function removeBoard(boardId){
          await dataHandler.deleteBoard(boardId);
     }
 }
-
 
 export function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
@@ -163,7 +176,14 @@ export function initDropdown() {
         });
     });
 }
-export async function reloadBoardsAndCards(){
+
+export async function reloadBoardsAndCards() {
     await document.querySelectorAll('.board-container').forEach(board => board.innerHTML = '')
     boardsManager.loadBoards().then(boardsManager.modifyingColumns);
+}
+
+function saveTargetElementToLocalStorage(emptyColumn, boardId, columnId){
+    localStorage.setItem('emptyColumn', emptyColumn)
+    localStorage.setItem('columnBoardId', boardId)
+    localStorage.setItem('columnId', columnId)
 }
