@@ -134,7 +134,7 @@ export async function initDropdown() {
     let optionMenus = document.querySelectorAll('.options-menu');
     hamburgerButtons.forEach(button => {
         let buttonId = button.id;
-        let optionsId = "options-menu-"+buttonId;
+        let optionsId = "options-"+buttonId;
         let options = document.getElementById(optionsId);
         button.addEventListener('click', () => {
             optionMenus.forEach(currentOptions => {
@@ -142,10 +142,12 @@ export async function initDropdown() {
                     currentOptions.classList.remove('show');
                 }
             });
+            console.log(options.classList);
             options.classList.toggle('show');
+            console.log(options.classList);
         });
-        const boardId = optionsId.slice(-1);
-        const columnId = optionsId.slice(-2, -1);
+        const boardId = optionsId.slice(12);
+        const columnId = button.dataset.statusId;
         const addCardButtonId = "newCard"+boardId+columnId;
         const addCardButton = document.getElementById(addCardButtonId);
         addCardButton.addEventListener('click', () => {
