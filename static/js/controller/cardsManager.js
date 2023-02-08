@@ -134,6 +134,5 @@ async function endDrag(event) {
         localStorage.removeItem('columnId')
         localStorage.removeItem('emptyColumn')
     }
-
     localStorage.removeItem('dragged-item');
 }
