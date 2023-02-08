@@ -69,6 +69,7 @@ INSERT INTO statuses(title, board_id) VALUES ('new', 3);
 INSERT INTO statuses(title, board_id) VALUES ('in progress', 3);
 INSERT INTO statuses(title, board_id) VALUES ('testing', 3);
 INSERT INTO statuses(title, board_id) VALUES ('done', 3);
+INSERT INTO statuses(title, board_id) VALUES ('additional', 3);
 
 INSERT INTO boards(title, type, owner) VALUES ('Board 1', 'private', 'test');
 INSERT INTO boards(title, type, owner) VALUES ('Board 2', 'private', 'admin');

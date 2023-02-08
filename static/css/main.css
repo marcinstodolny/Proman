@@ -85,6 +85,8 @@ section.board{
 .board-columns{
     display: flex;
     flex-wrap: nowrap;
+    overflow-x: auto;
+    min-height: 150px;
 }
 
 .board-column{
@@ -240,12 +242,12 @@ section.board{
 .options-menu {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -340%;
     background-color: white;
     padding: 10px;
     border: 1px solid gray;
     display: none;
-    z-index: 1;
+    z-index: 1000;
     width: 120px;
 }
 
