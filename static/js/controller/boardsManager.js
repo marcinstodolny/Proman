@@ -135,16 +135,16 @@ export async function initDropdown() {
     hamburgerButtons.forEach(button => {
         let buttonId = button.id;
         let optionsId = "options-"+buttonId;
+        console.log(optionsId);
         let options = document.getElementById(optionsId);
+        console.log(options);
         button.addEventListener('click', () => {
             optionMenus.forEach(currentOptions => {
                 if(currentOptions!==options) {
                     currentOptions.classList.remove('show');
                 }
             });
-            console.log(options.classList);
             options.classList.toggle('show');
-            console.log(options.classList);
         });
         const boardId = optionsId.slice(12);
         const columnId = button.dataset.statusId;
@@ -156,3 +156,5 @@ export async function initDropdown() {
         });
     });
 }
+
+
