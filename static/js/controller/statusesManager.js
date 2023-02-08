@@ -18,27 +18,24 @@ export async function initDropdown() {
             options.classList.toggle('show');
         });
         const boardId = buttonId.slice(4);
-        const addCardButtonId = "newCard"+columnId;
-        const addCardButton = document.getElementById(addCardButtonId);
-        const renameColumnButtonId = "renameColumn"+columnId;
-        const renameColumnButton = document.getElementById(renameColumnButtonId);
-        const deleteColumnButtonId = "deleteColumn"+columnId;
-        const deleteColumnButton = document.getElementById(deleteColumnButtonId);
-        addCardButton.addEventListener('click', () => {
+        getActionButton("newCard", columnId).addEventListener('click', () => {
             options.classList.remove('show');
             addCard(boardId, columnId);
         });
-        renameColumnButton.addEventListener('click', () => {
+        getActionButton("renameColumn", columnId).addEventListener('click', () => {
             options.classList.remove('show');
             columnRenaming(columnId);
         });
-        deleteColumnButton.addEventListener('click', () => {
+        getActionButton("deleteColumn", columnId).addEventListener('click', () => {
             options.classList.remove('show');
             statusRemoval(columnId);
         });
     });
 }
 
+function getActionButton(actionName, columnId){
+    return document.getElementById(actionName+columnId);
+}
 
 async function columnRenaming(columnId){
     let targetElement = document.querySelector(`.status-title[data-status-id="${columnId}"]`);
