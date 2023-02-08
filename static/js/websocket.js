@@ -25,11 +25,9 @@ export function webSocket(){
     boardTitleHandler()
     socket.on('create board', async function(board) {
         let username = document.querySelector('#username').innerText
-        console.log(username)
         if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
             boardRemoveHandler()
-            console.log(board.id)
             boardTitleHandler("board-title_"+board.id)
             // initDropdown, button event and card creation ONLY to this one after creation
         }
