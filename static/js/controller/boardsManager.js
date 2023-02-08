@@ -10,7 +10,6 @@ export let boardsManager = {
         for (let board of boards) {
             await loadBoard(board)
         }
-        // await initDropdown();
     },
     creatingNewBoard: async function () {
          await newBoardButtonCreation('public')
@@ -65,7 +64,7 @@ export async function loadBoard(board){
                 'click',
                 renameBoard
             );
-            // await initDropdown();
+            await initDropdown();
 }
 
 async function newBoardButtonCreation(type){
