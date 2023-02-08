@@ -24,6 +24,7 @@
         <script type="text/javascript" src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     </head>
     <body>
+    <div id="username" style="display: none">{{ session['username'] }}</div>
     {% if session['username'] %}
         <div id="logout">
             <button id='logout-btn'>logout</button>
@@ -68,7 +69,7 @@
                 <div style="display: none">
                 <li class="new-board-container" id="new-private-board-input-container">
                     <input id="new-private-board-input" placeholder="Insert new board name">
-                    <button id="save-new-private-board">Save</button>
+                    <button id="save-new-private-board" class="syncPrivate">Save</button>
                 </li>
                 <li class="new-board-container">
                     <button id="new-private-board-btn">New private board</button>

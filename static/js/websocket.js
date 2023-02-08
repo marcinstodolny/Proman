@@ -24,7 +24,9 @@ export function webSocket(){
     boardRemoveHandler()
     boardTitleHandler()
     socket.on('create board', async function(board) {
-        if (board.owner === '{{ session.username }}' || board.type === 'public'){
+        let username = document.querySelector('#username').innerText
+        console.log(username)
+        if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
             boardRemoveHandler()
             console.log(board.id)
