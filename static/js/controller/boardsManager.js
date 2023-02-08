@@ -138,7 +138,6 @@ export async function initDropdown() {
         let options = document.getElementById("btn-options-"+columnId);
         button.addEventListener('click', () => {
             optionMenus.forEach(currentOptions => {
-                console.log(currentOptions, options);
                 if(currentOptions!==options) {
                     currentOptions.classList.remove('show');
                 }

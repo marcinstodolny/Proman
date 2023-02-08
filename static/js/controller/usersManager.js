@@ -11,8 +11,6 @@ async function initModals(){
 }
 
 const modal = document.getElementById("myModal");
-// let table = document.getElementById("modal-table");
-// const btn = document.getElementsByClassName("myBtn");
 const span = document.getElementsByClassName("close");
 const title = document.getElementById('modal-title');
 
