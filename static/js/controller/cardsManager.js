@@ -67,7 +67,14 @@ async function cardRenaming(event, cardId=null){
     cardId = targetElement.parentElement.dataset.cardId;
     const oldCardName = targetElement.innerText;
     targetElement.innerText = "";
-    domManager.addChild(`.card[data-card-id="${cardId}"]`, `<input id="new-card-input" value="${oldCardName}" placeholder="${oldCardName}">`);
+    if(oldCardName!=="new card"){
+        domManager.addChild(`.card[data-card-id="${cardId}"]`,
+            `<input id="new-card-input" value="${oldCardName}" placeholder="${oldCardName}">`);
+    }
+    else{
+        domManager.addChild(`.card[data-card-id="${cardId}"]`,
+            `<input id="new-card-input" placeholder="${oldCardName}">`);
+    }
     const inputElement = document.getElementById("new-card-input");
     function handleCardRename(){
         if (inputElement.value) {
