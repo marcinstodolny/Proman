@@ -32,7 +32,7 @@ function boardBuilder(board, statuses) {
                             <div class="hamburger-line"></div>
                             <div class="hamburger-line"></div>
                         </div>
-                        <ul class="options-menu" id="$options-btn-${board.id}" >
+                        <ul class="options-menu" id="btn-options-${status.id}" >
                             <li class="menu-item newCard" id="newCard${board.id}${status.id}">
                                 Add new card
                             </li>

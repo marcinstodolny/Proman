@@ -37,6 +37,7 @@ export async function addCard(boardId, statusId) {
     await dataHandler.createNewCard(cardTitle, boardId, statusId);
     let last_card = await dataHandler.getCardWithHighestId();
     let cardId = last_card[0].id;
+    // console.log(cardTitle, boardId, statusId, cardId);
     let card = await dataHandler.getCard(cardId);
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card[0]);

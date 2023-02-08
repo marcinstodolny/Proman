@@ -134,20 +134,18 @@ export async function initDropdown() {
     let optionMenus = document.querySelectorAll('.options-menu');
     hamburgerButtons.forEach(button => {
         let buttonId = button.id;
-        let optionsId = "options-"+buttonId;
-        console.log(optionsId);
-        let options = document.getElementById(optionsId);
-        console.log(options);
+        const columnId = button.dataset.statusId;
+        let options = document.getElementById("btn-options-"+columnId);
         button.addEventListener('click', () => {
             optionMenus.forEach(currentOptions => {
+                console.log(currentOptions, options);
                 if(currentOptions!==options) {
                     currentOptions.classList.remove('show');
                 }
             });
             options.classList.toggle('show');
         });
-        const boardId = optionsId.slice(12);
-        const columnId = button.dataset.statusId;
+        const boardId = buttonId.slice(4);
         const addCardButtonId = "newCard"+boardId+columnId;
         const addCardButton = document.getElementById(addCardButtonId);
         addCardButton.addEventListener('click', () => {
