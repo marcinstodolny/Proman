@@ -22,7 +22,7 @@ function boardBuilder(board, statuses) {
     let columns = "";
     statuses.forEach(status => {
         columns += `
-        <div class="board-column">
+        <div class="board-column" data-status-id="${status.id}">
             <div class="board-column-title">
                 <div class="status">
                     <div class="status-title" data-status-id="${status.id}">${status.title}</div>

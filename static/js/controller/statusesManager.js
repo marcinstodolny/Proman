@@ -34,7 +34,7 @@ export async function initDropdown() {
         });
         deleteColumnButton.addEventListener('click', () => {
             options.classList.remove('show');
-            dataHandler.deleteStatus(columnId);
+            statusRemoval(columnId);
         });
     });
 }
@@ -44,9 +44,8 @@ async function columnRenaming(columnId){
     let targetElement = document.querySelector(`.status-title[data-status-id="${columnId}"]`);
     const oldStatus = targetElement.innerText;
     targetElement.innerText = "";
-
-    domManager.addChild(`.status-title[data-status-id="${columnId}"]`, `<input id="new-status-input" value="${oldStatus}" placeholder="${oldStatus}">`);
-
+    domManager.addChild(`.status-title[data-status-id="${columnId}"]`,
+        `<input id="new-status-input" value="${oldStatus}" placeholder="${oldStatus}">`);
     const inputElement = document.getElementById("new-status-input");
     function handleColumnRename(){
         if (inputElement.value) {
@@ -66,4 +65,12 @@ async function columnRenaming(columnId){
         }
     });
     inputElement.focus();
+}
+
+async function statusRemoval(columnId){
+    await dataHandler.deleteStatus(columnId);
+    let targetElement = document.querySelector(`.board-column[data-status-id="${columnId}"]`);
+    targetElement.innerHTML = "";
+    targetElement.remove();
+
 }
