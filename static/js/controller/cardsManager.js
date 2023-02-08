@@ -89,7 +89,6 @@ async function cardRenaming(event, cardId=null){
     inputElement.focus();
 }
 
-
 async function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
     let cardId = card.parentElement.dataset.cardId;

@@ -1,7 +1,8 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
-import {addCard, cardsManager} from "./cardsManager.js";
+import {initDropdown} from "./statusesManager.js";
+import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
@@ -58,6 +59,7 @@ export let boardsManager = {
         })
     }
 };
+
 function toggleBoardNameInput(boardBtn, BoardContainer){
     boardBtn.addEventListener('click', () => {
             let newBoardContainerVisibility = BoardContainer.style.display;
@@ -68,6 +70,7 @@ function toggleBoardNameInput(boardBtn, BoardContainer){
             }
         });
 }
+
 async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
     BoardSaveBtn.addEventListener('click', () => {
             if (boardName.value) {
@@ -129,29 +132,6 @@ async function deleteBoardButtonHandler(clickEvent) {
 }
 
 
-export async function initDropdown() {
-    let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
-    let optionMenus = document.querySelectorAll('.options-menu');
-    hamburgerButtons.forEach(button => {
-        let buttonId = button.id;
-        const columnId = button.dataset.statusId;
-        let options = document.getElementById("btn-options-"+columnId);
-        button.addEventListener('click', () => {
-            optionMenus.forEach(currentOptions => {
-                if(currentOptions!==options) {
-                    currentOptions.classList.remove('show');
-                }
-            });
-            options.classList.toggle('show');
-        });
-        const boardId = buttonId.slice(4);
-        const addCardButtonId = "newCard"+boardId+columnId;
-        const addCardButton = document.getElementById(addCardButtonId);
-        addCardButton.addEventListener('click', () => {
-            options.classList.remove('show');
-            addCard(boardId, columnId);
-        });
-    });
-}
+
 
 
