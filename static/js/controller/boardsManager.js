@@ -50,28 +50,16 @@ export async function loadBoard(board){
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.board-remove[data-board-id="${board.id}"]`,
-                "click",
-                deleteBoardButtonHandler
-            );
-            domManager.addEventListener(
                 `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
-            );
-            domManager.addEventListener(
-                `#board-title_${board.id}`,
-                'click',
-                renameBoard
             );
 }
 
 async function newBoardButtonCreation(type){
     const newBoardBtn = document.querySelector(`#new-${type}-board-btn`);
     const newBoardContainer = document.querySelector(`#new-${type}-board-input-container`);
-    const newBoardSaveBtn = document.querySelector(`#save-new-${type}-board`);
     toggleBoardNameInput(newBoardBtn, newBoardContainer)
-    await createBoardButtonEvent(newBoardSaveBtn, document.querySelector(`#new-${type}-board-input`), type)
 }
 
 function toggleBoardNameInput(boardBtn, BoardContainer){
@@ -83,14 +71,6 @@ function toggleBoardNameInput(boardBtn, BoardContainer){
                 BoardContainer.style.display = "block"
             }
         });
-}
-
-async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
-    BoardSaveBtn.addEventListener('click', () => {
-            if (boardName.value) {
-                dataHandler.createNewBoard(boardName.value, type)
-            }
-        })
 }
 
 function showHideButtonHandler(clickEvent) {
@@ -135,12 +115,6 @@ function renameBoard (board) {
             boardTitle.addEventListener('click', renameBoard);
         }
     })
-}
-
-async function deleteBoardButtonHandler(clickEvent) {
-    const board = clickEvent.target;
-    const boardId = board.dataset.boardId
-    io.connect('http://localhost:5000/').emit('delete board', boardId);
 }
 
 export async function removeBoard(boardId){
