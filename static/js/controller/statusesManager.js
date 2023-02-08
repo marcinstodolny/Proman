@@ -1,7 +1,6 @@
 import {addCard} from "./cardsManager.js";
 import {dataHandler} from "../data/dataHandler.js";
 import {domManager} from "../view/domManager.js";
-import {reloadBoardsAndCards} from "./boardsManager.js";
 
 export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
@@ -71,7 +70,6 @@ async function statusRemoval(columnId){
     let targetElement = document.querySelector(`.board-column[data-status-id="${columnId}"]`);
     targetElement.innerHTML = "";
     targetElement.remove();
-
 }
 
 export async function addColumnButtonHandler(clickEvent){
