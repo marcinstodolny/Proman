@@ -28,7 +28,8 @@ DROP TABLE IF EXISTS public.users;
 
 CREATE TABLE statuses (
     id       SERIAL PRIMARY KEY     NOT NULL,
-    title    VARCHAR(200)           NOT NULL
+    title    VARCHAR(200)           NOT NULL,
+    board_id INTEGER                NOT NULL
 );
 
 CREATE TABLE boards (
@@ -56,10 +57,19 @@ CREATE TABLE users (
 --- insert data
 ---
 
-INSERT INTO statuses(title) VALUES ('new');
-INSERT INTO statuses(title) VALUES ('in progress');
-INSERT INTO statuses(title) VALUES ('testing');
-INSERT INTO statuses(title) VALUES ('done');
+INSERT INTO statuses(title, board_id) VALUES ('new', 1);
+INSERT INTO statuses(title, board_id) VALUES ('in progress', 1);
+INSERT INTO statuses(title, board_id) VALUES ('testing', 1);
+INSERT INTO statuses(title, board_id) VALUES ('done', 1);
+INSERT INTO statuses(title, board_id) VALUES ('new', 2);
+INSERT INTO statuses(title, board_id) VALUES ('in progress', 2);
+INSERT INTO statuses(title, board_id) VALUES ('testing', 2);
+INSERT INTO statuses(title, board_id) VALUES ('done', 2);
+INSERT INTO statuses(title, board_id) VALUES ('new', 3);
+INSERT INTO statuses(title, board_id) VALUES ('in progress', 3);
+INSERT INTO statuses(title, board_id) VALUES ('testing', 3);
+INSERT INTO statuses(title, board_id) VALUES ('done', 3);
+INSERT INTO statuses(title, board_id) VALUES ('additional', 3);
 
 INSERT INTO boards(title, type, owner) VALUES ('Board 1', 'private', 'test');
 INSERT INTO boards(title, type, owner) VALUES ('Board 2', 'private', 'admin');

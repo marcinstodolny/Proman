@@ -2,15 +2,13 @@ import data_manager
 
 
 def get_card_status(status_id):
-    status = data_manager.execute_select(
+    return data_manager.execute_select(
         """
         SELECT title FROM statuses s
         WHERE s.id = %(status_id)s
         ;
         """
         , {"status_id": status_id})
-
-    return status
 
 
 def get_public_boards():
@@ -31,7 +29,8 @@ def get_public_and_private_boards(username):
         (SELECT * FROM boards
         WHERE owner = %(username)s)
         ORDER BY id;
-        """, {"username": username})
+        """
+        , {"username": username})
 
 
 def delete_board(table_id, username=''):
@@ -91,6 +90,15 @@ def get_card_by_id(card_id):
         , {'card_id': card_id})
 
 
+def get_board_id(title):
+    return data_manager.execute_select(
+        """
+        SELECT id FROM boards 
+        WHERE title = %(title)s;
+        """
+        , {'title': title})
+
+
 def rename_card(card_id, title):
     return data_manager.execute_insert(
         """
@@ -110,13 +118,32 @@ def delete_card(card_id):
         , {'card_id': card_id})
 
 
-def get_statuses():
+def delete_boards_statuses(board_id):
+    return data_manager.execute_insert(
+        """
+        DELETE FROM statuses
+        WHERE board_id = %(board_id)s
+        """
+        , {'board_id': board_id})
+
+
+def delete_status(status_id):
+    return data_manager.execute_insert(
+        """
+        DELETE FROM statuses
+        WHERE id = %(status_id)s
+        """
+        , {'status_id': status_id})
+
+
+def get_statuses(board_id):
     return data_manager.execute_select(
         """
         SELECT * FROM statuses
-        ;
+        WHERE board_id = %(board_id)s
+        ORDER BY id
         """
-    )
+        , {'board_id': board_id})
 
 
 def get_board_title(board_id):
@@ -137,6 +164,35 @@ def create_new_board(board_title, board_type, username=''):
         , {"title": board_title, 'type': board_type, 'owner': username})
 
 
+def create_default_statuses(board_id):
+    return data_manager.execute_insert(
+        """
+        INSERT INTO statuses(title, board_id) VALUES ('new', %(board_id)s);
+        INSERT INTO statuses(title, board_id) VALUES ('in progress', %(board_id)s);
+        INSERT INTO statuses(title, board_id) VALUES ('testing', %(board_id)s);
+        INSERT INTO statuses(title, board_id) VALUES ('done', %(board_id)s);
+        """
+        , {"board_id": board_id})
+
+
+def create_new_status(board_id, title):
+    return data_manager.execute_insert(
+        """
+        INSERT INTO statuses(title, board_id) VALUES (%(title)s, %(board_id)s);
+        """
+        , {"board_id": board_id, "title": title})
+
+
+def rename_status(status_id, new_status):
+    return data_manager.execute_insert(
+        """
+        UPDATE statuses
+        SET title = (%(new_status)s)
+        WHERE id = (%(status_id)s)
+        """
+        , {"new_status": new_status, "status_id": status_id})
+
+
 def rename_board(board_id, board_new_name):
     return data_manager.execute_insert(
         """
@@ -147,7 +203,7 @@ def rename_board(board_id, board_new_name):
         , {"title": board_new_name, "id": board_id})
 
 
-def is_user_exist(username):
+def does_user_exist(username):
     return data_manager.execute_select(
         """
         SELECT username

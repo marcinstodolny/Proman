@@ -20,33 +20,31 @@ export function htmlFactory(template) {
 
 function boardBuilder(board, statuses) {
     let columns = "";
-    for (let index= 0; index < statuses.length; index++) {
+    statuses.forEach(status => {
         columns += `
-        <div class="board-column">
+        <div class="board-column" data-status-id="${status.id}">
             <div class="board-column-title">
                 <div class="status">
-                    <div class="status-title" data-status-id="${statuses[index].id}">${statuses[index].title}</div>
+                    <div class="status-title" data-status-id="${status.id}">${status.title}</div>
                     <div class="status-options">
-                        <div class="hamburger-btn" id="hamburger-btn-${statuses[index].id}${board.id}">
+                        <div class="hamburger-btn" id="btn-${board.id}" data-status-id="${status.id}">
                             <div class="hamburger-line"></div>
                             <div class="hamburger-line"></div>
                             <div class="hamburger-line"></div>
                         </div>
-                        <ul class="options-menu" id="options-menu-hamburger-btn-${statuses[index].id}${board.id}">
-                            <li class="menu-item newCard" id="newCard${board.id}${statuses[index].id}">
-                                Add new card
-                            </li>
-                            <li class="menu-item">Rename column</li>
-                            <li class="menu-item">Delete column</li>
+                        <ul class="options-menu" id="btn-options-${status.id}" >
+                            <li class="menu-item" id="newCard${status.id}">Add new card</li>
+                            <li class="menu-item" id="renameColumn${status.id}">Rename column</li>
+                            <li class="menu-item" id="deleteColumn${status.id}">Delete column</li>
                         </ul>
                     </div>
                     </div>
                 </div>
             <div class="board-column-content" 
                 data-board-id="${board.id}"
-                data-column-id="${index + 1}"></div>
+                data-column-id="${status.id}"></div>
         </div>`;
-        }
+        })
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                     <div class="board-header">

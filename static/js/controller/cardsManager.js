@@ -72,7 +72,14 @@ async function cardRenaming(event, cardId=null){
     cardId = targetElement.parentElement.dataset.cardId;
     const oldCardName = targetElement.innerText;
     targetElement.innerText = "";
-    domManager.addChild(`.card[data-card-id="${cardId}"]`, `<input id="new-card-input" value="${oldCardName}" placeholder="${oldCardName}">`);
+    if(oldCardName!=="new card"){
+        domManager.addChild(`.card[data-card-id="${cardId}"]`,
+            `<input id="new-card-input" value="${oldCardName}" placeholder="${oldCardName}">`);
+    }
+    else{
+        domManager.addChild(`.card[data-card-id="${cardId}"]`,
+            `<input id="new-card-input" placeholder="${oldCardName}">`);
+    }
     const inputElement = document.getElementById("new-card-input");
     function handleCardRename(){
         if (inputElement.value) {
@@ -94,19 +101,18 @@ async function cardRenaming(event, cardId=null){
     inputElement.focus();
 }
 
-
-function deleteButtonHandler(clickEvent) {
+async function deleteButtonHandler(clickEvent) {
     const card = clickEvent.target;
     let cardId = card.parentElement.dataset.cardId;
     card.parentElement.remove();
-    dataHandler.deleteCard(cardId);
+    await dataHandler.deleteCard(cardId);
 }
 
 function startDrag(event) {
     localStorage.setItem('dragged-item', event.target.dataset.cardId);
 }
 
-function endDrag(event) {
+async function endDrag(event) {
     let orderedCardsList = [];
     const previousCardId = localStorage.getItem('previousCardId');
     const columnBoardId = localStorage.getItem('columnBoardId');
@@ -119,11 +125,11 @@ function endDrag(event) {
         previousElement.after(event.target)
         const columnContent = event.target.parentElement.children;
         Object.values(columnContent).forEach(element => orderedCardsList.push(element.dataset['cardId']))
-        dataHandler.updateCardsStatus(orderedCardsList, columnBoardId, columnId);
+        await dataHandler.updateCardsStatus(orderedCardsList, columnBoardId, columnId);
     }
 
     if(emptyColumn === "true"){
-        dataHandler.updateCardStatusOnEmptyColumn(draggedCardId, columnBoardId, columnId)
+        await dataHandler.updateCardStatusOnEmptyColumn(draggedCardId, columnBoardId, columnId)
         localStorage.removeItem('columnBoardId')
         localStorage.removeItem('columnId')
         localStorage.removeItem('emptyColumn')

@@ -11,8 +11,6 @@ async function initModals(){
 }
 
 const modal = document.getElementById("myModal");
-let table = document.getElementById("modal-table");
-const btn = document.getElementsByClassName("myBtn");
 const span = document.getElementsByClassName("close");
 const title = document.getElementById('modal-title');
 
@@ -52,7 +50,7 @@ async function registerMain(){
         const username = document.querySelector('#user-register').value
         const password = document.querySelector('#password-register').value
         const password_confirm = document.querySelector('#password-register-confirm').value
-        const exist = await dataHandler.is_user_exist(username)
+        const exist = await dataHandler.does_user_exist(username)
         if (password === password_confirm && !exist){
             await dataHandler.register(username, password)
             window.location.reload()

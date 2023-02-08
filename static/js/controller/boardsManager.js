@@ -1,7 +1,8 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
-import {addCard, cardsManager} from "./cardsManager.js";
+import {initDropdown} from "./statusesManager.js";
+import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
@@ -9,7 +10,7 @@ export let boardsManager = {
         for (let board of boards) {
             await loadBoard(board)
         }
-        // initDropdown();
+        // await initDropdown();
     },
     creatingNewBoard: async function () {
          await newBoardButtonCreation('public')
@@ -45,7 +46,7 @@ export let boardsManager = {
 };
 
 export async function loadBoard(board){
-    const statuses = await dataHandler.getStatuses();
+    const statuses = await dataHandler.getStatuses(board.id);
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
@@ -64,6 +65,7 @@ export async function loadBoard(board){
                 'click',
                 renameBoard
             );
+            // await initDropdown();
 }
 
 async function newBoardButtonCreation(type){
@@ -93,17 +95,17 @@ async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
         })
 }
 
-function showHideButtonHandler(clickEvent) {
+async function showHideButtonHandler(clickEvent) {
     clickEvent.target.classList.toggle("flip");
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
     if (board.classList.contains("hide-board")) {
-        cardsManager.loadCards(boardId);
+        await cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
 
     }
     else {
-        cardsManager.deleteCards(boardId);
+        await cardsManager.deleteCards(boardId);
         board.classList.add("hide-board");
     }
 }
@@ -122,12 +124,12 @@ function renameBoard (board) {
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
-    input.addEventListener('keyup', function test(event) {
+    input.addEventListener('keyup', async function test(event) {
         if (event.code === "Enter" ) {
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
-            dataHandler.renameBoard(titleId, inputText);
+            await dataHandler.renameBoard(titleId, inputText);
             boardTitle.addEventListener('click', renameBoard);
         } else if (event.code === "Escape") {
             event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
@@ -149,32 +151,6 @@ export async function removeBoard(boardId){
          board.parentElement.remove();
          await dataHandler.deleteBoard(boardId);
     }
-}
-
-export function initDropdown() {
-    let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
-    let optionMenus = document.querySelectorAll('.options-menu');
-    hamburgerButtons.forEach(button => {
-        let buttonId = button.id;
-        let optionsId = "options-menu-"+buttonId;
-        let options = document.getElementById(optionsId);
-        button.addEventListener('click', () => {
-            optionMenus.forEach(currentOptions => {
-                if(currentOptions!==options) {
-                    currentOptions.classList.remove('show');
-                }
-            });
-            options.classList.toggle('show');
-        });
-        const boardId = optionsId.slice(-1);
-        const columnId = optionsId.slice(-2, -1);
-        const addCardButtonId = "newCard"+boardId+columnId;
-        const addCardButton = document.getElementById(addCardButtonId);
-        addCardButton.addEventListener('click', () => {
-            options.classList.remove('show');
-            addCard(boardId, columnId);
-        });
-    });
 }
 
 export async function reloadBoardsAndCards() {
