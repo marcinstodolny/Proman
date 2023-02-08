@@ -87,6 +87,7 @@ section.board{
     flex-wrap: nowrap;
     overflow-x: auto;
     min-height: 150px;
+    width: 100%;
 }
 
 .board-column{
