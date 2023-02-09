@@ -40,12 +40,6 @@ def update_title(data):
     emit('update title', data, broadcast=True)
 
 
-# na ten moment jest też ping by widać było czy wszystko działa dobrze i się nie tnie
-@socketio.on('ping')
-def ping():
-    emit('ping', broadcast=True)
-
-
 @socketio.on('update cards inside board')
 def update_cards_inside_board(data):
     emit('update cards inside board', data, broadcast=True)

@@ -5,14 +5,6 @@ import {cardsManager} from "./controller/cardsManager.js";
 
 export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
-    setInterval(() => {
-      const start = Date.now();
-
-      socket.emit("ping", () => {
-        const duration = Date.now() - start;
-        console.log(duration);
-      });
-    }, 1000);
     socket.on('create board', async function(board) {
         let username = document.querySelector('#current_username').innerText
         if (board.owner === username || board.type === 'public'){
