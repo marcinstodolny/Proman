@@ -16,7 +16,7 @@ def establish_connection(connection_data=None):
                                                                      connection_data['user'],
                                                                      connection_data['host'],
                                                                      connection_data['password'])
-        conn = psycopg2.connect(connect_str)
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL'))
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
         print("Cannot connect to database.")
