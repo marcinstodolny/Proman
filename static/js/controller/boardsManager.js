@@ -48,7 +48,6 @@ export let boardsManager = {
 
 export async function loadBoard(board){
     const statuses = await dataHandler.getStatuses(board.id);
-    console.log(statuses)
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);

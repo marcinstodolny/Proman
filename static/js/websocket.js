@@ -1,15 +1,13 @@
 import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
-import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
 
 export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
     setInterval(() => {
       const start = Date.now();
-
       socket.emit("ping", () => {
         const duration = Date.now() - start;
-        console.log(duration);
+        // console.log(duration);
       });
     }, 1000);
     socket.on('create board', async function(board) {
@@ -18,7 +16,6 @@ export function webSocket(){
             await loadBoard(board)
             await initDropAndColumns(board)
         }
-
     });
     socket.on('delete board', function(boardId) {
         removeBoard(boardId)
