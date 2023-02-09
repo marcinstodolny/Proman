@@ -1,14 +1,17 @@
-import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
+import {boardsManager, loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
+import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
 import {cardsManager} from "./controller/cardsManager.js";
 
 export let socket = io.connect('https://proman.herokuapp.com/');
+// export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
     socket.on('create board', async function(board) {
         let username = document.querySelector('#current_username').innerText
         if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
             await initDropAndColumns(board)
+            await boardsManager.modifyingColumns(document.querySelector(`.board[data-board-id="${board['id']}"]`))
         }
     });
     socket.on('delete board', function(boardId) {

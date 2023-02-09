@@ -17,8 +17,11 @@ export let boardsManager = {
         await newBoardButtonCreation('public')
         await newBoardButtonCreation('private')
     },
-    modifyingColumns: function () {
-        const boardsColumnsContainers = document.querySelectorAll('.board-column-content');
+    modifyingColumns: function (element=null) {
+        let boardsColumnsContainers = document.querySelectorAll('.board-column-content');
+        if (element != null) {
+            boardsColumnsContainers = element.querySelectorAll('.board-column-content');
+        }
         boardsColumnsContainers.forEach((element) => {
             element.addEventListener('drop', (event) => {
                 event.preventDefault()
