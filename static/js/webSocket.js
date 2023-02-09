@@ -2,7 +2,7 @@ import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js
 import {initDropAndColumns} from "./controller/statusesManager.js";
 import {cardsManager} from "./controller/cardsManager.js";
 
-export let socket = io.connect('https://proman.herokuapp.com/');
+export let socket = io.connect('https://ec2-54-155-129-189.eu-west-1.compute.amazonaws.com');
 export function webSocket(){
     socket.on('create board', async function(board) {
         let username = document.querySelector('#current_username').innerText
