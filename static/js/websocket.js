@@ -13,7 +13,7 @@ export function webSocket(){
       });
     }, 1000);
     socket.on('create board', async function(board) {
-        let username = document.querySelector('#username').innerText
+        let username = document.querySelector('#current_username').innerText
         if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
             await initDropAndColumns(board)

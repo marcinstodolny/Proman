@@ -24,7 +24,7 @@
         <script type="text/javascript" src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     </head>
     <body>
-    <div id="username" style="display: none">{{ session['username'] }}</div>
+    <div id="current_username" style="display: none">{{ session['username'] }}</div>
     {% if session['username'] %}
         <div id="logout">
             <button id='logout-btn'>logout</button>

@@ -10,7 +10,11 @@ export let cardsManager = {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
             domManager.addChild(`.board-column-content[data-board-id="${boardId}"][data-column-id="${statusId}"]`, content);
-            domManager.addEventListener(
+            cardsManager.cardEvent(card)
+        }
+    },
+    cardEvent: async function(card){
+        domManager.addEventListener(
                 `.card-remove[data-card-id="${card.id}"]`,
                 "click",
                 deleteButtonHandler
@@ -23,7 +27,6 @@ export let cardsManager = {
             domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragstart",startDrag)
             domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragenter", setCardIdToLocalStorage)
             domManager.addEventListener(`.card[data-card-id="${card.id}"]`, "dragend", endDrag)
-        }
     },
     deleteCards: async function (boardId) {
         const cards = await dataHandler.getCardsByBoardId(boardId);

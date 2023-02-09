@@ -1,6 +1,7 @@
-import {addCard} from "./cardsManager.js";
+import {addCard, cardsManager} from "./cardsManager.js";
 import {dataHandler} from "../data/dataHandler.js";
 import {domManager} from "../view/domManager.js";
+import {boardsManager} from "./boardsManager.js";
 
 export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
@@ -94,6 +95,11 @@ export async function addColumnButtonHandler(clickEvent){
     board.innerHTML += content;
     await initDropAndColumns({'id': boardId})
     await columnRenaming(statusId);
+    const cards = await dataHandler.getCardsByBoardId(boardId);
+        for (let card of cards) {
+            cardsManager.cardEvent(card)
+        }
+    boardsManager.modifyingColumns()
 }
 
 function createColumn(boardId, statusId, newStatus) {
