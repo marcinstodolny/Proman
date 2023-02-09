@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, url_for, request, session, Response
 from dotenv import load_dotenv
 import datetime
@@ -225,7 +226,7 @@ def logout():
 
 def main():
     # app.run(debug=True)
-    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
+    socketio.run(app, host='0.0.0.0', port=os.environ.get('PORT'), allow_unsafe_werkzeug=True)
 
     # Serving the favicon
     with app.app_context():
