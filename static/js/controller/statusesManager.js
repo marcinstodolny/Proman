@@ -5,12 +5,16 @@ import {domManager} from "../view/domManager.js";
 export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
     let optionMenus = document.querySelectorAll('.options-menu');
-    hamburgerButtons.forEach(button => {
+    await initDrop(hamburgerButtons, optionMenus)
+    }
+
+export async function initDrop(buttons, optionsMenu){
+     buttons.forEach(button => {
         let buttonId = button.id;
         const columnId = button.dataset.statusId;
         let options = document.getElementById("btn-options-"+columnId);
         button.addEventListener('click', () => {
-            optionMenus.forEach(currentOptions => {
+            optionsMenu.forEach(currentOptions => {
                 if(currentOptions!==options) {
                     currentOptions.classList.remove('show');
                 }
@@ -30,8 +34,15 @@ export async function initDropdown() {
             options.classList.remove('show');
             statusRemoval(columnId);
         });
-    });
+    })
 }
+export async function initDropAndColumns(board){
+         let current_board = document.querySelector(`.board[data-board-id="${board['id']}"]`)
+            let hamburgerButtons = await current_board.querySelectorAll('.hamburger-btn');
+            let optionMenus = await current_board.querySelectorAll('.options-menu');
+            await initDrop(hamburgerButtons, optionMenus)
+     }
+
 
 function getActionButton(actionName, columnId){
     return document.getElementById(actionName+columnId);
@@ -76,11 +87,12 @@ export async function addColumnButtonHandler(clickEvent){
     const addColumnButton = clickEvent.target;
     const boardId = addColumnButton.dataset.boardId
     const newStatus = "new card";
-    await dataHandler.createStatus(boardId, newStatus);
-    const statusId = dataHandler.getLastStatusId();
+        await dataHandler.createStatus(boardId, newStatus)
+    const statusId = await dataHandler.getLastStatusId();
     const board = document.getElementById(`${boardId}`);
     const content = createColumn(boardId, statusId, newStatus);
     board.innerHTML += content;
+    await initDropAndColumns({'id': boardId})
     await columnRenaming(statusId);
 }
 

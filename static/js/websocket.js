@@ -1,5 +1,6 @@
 import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
 import {dataHandler} from "./data/dataHandler.js";
+import {initDropAndColumns} from "./controller/statusesManager.js";
 
 export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
@@ -15,7 +16,7 @@ export function webSocket(){
         let username = document.querySelector('#username').innerText
         if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
-            // initDropdown, button event and card creation ONLY to this one after creation
+            await initDropAndColumns(board)
         }
 
     });
@@ -30,5 +31,4 @@ export function webSocket(){
             boardTitle = await document.querySelector(`#${data['boardId']}`);
          boardTitle.addEventListener('click', renameBoard);
     }});
-
 }

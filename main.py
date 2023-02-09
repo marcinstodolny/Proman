@@ -75,8 +75,8 @@ def create_new_board():
         queries.create_new_board(data['board_title'], data['board_type'])
     else:
         queries.create_new_board(data['board_title'], data['board_type'], session['username'])
-    board_id = queries.get_board_id(data['board_title'])
-    queries.create_default_statuses(board_id[0]['id'])
+    board_id = queries.get_recently_created_board()[0]['id']
+    queries.create_default_statuses(board_id)
     return Response('', status=201)
 
 
@@ -147,6 +147,7 @@ def get_last_card():
 
 
 @app.route("/api/last-status")
+@json_response
 def get_last_status():
     return queries.get_last_status_id()[0]['id']
 

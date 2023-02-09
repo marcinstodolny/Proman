@@ -90,15 +90,6 @@ def get_card_by_id(card_id):
         , {'card_id': card_id})
 
 
-def get_board_id(title):
-    return data_manager.execute_select(
-        """
-        SELECT id FROM boards 
-        WHERE title = %(title)s;
-        """
-        , {'title': title})
-
-
 def rename_card(card_id, title):
     return data_manager.execute_insert(
         """
