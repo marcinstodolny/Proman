@@ -96,7 +96,7 @@ section.board{
 }
 
 .board-column-content{
-    min-height: 49px;
+    min-height: 20px;
 }
 
 .board-column-content:empty{
