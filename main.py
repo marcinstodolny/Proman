@@ -220,7 +220,7 @@ def logout():
 
 def main():
     # app.run(debug=True)
-    socketio.run(app)
+    socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True)
 
     # Serving the favicon
     with app.app_context():
