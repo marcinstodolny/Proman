@@ -47,6 +47,7 @@ export async function addCard(boardId, statusId) {
     const content = cardBuilder(card[0]);
     domManager.addChild(`.board-column-content[data-board-id="${boardId}"][data-column-id="${statusId}"]`, content);
     domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragstart",startDrag);
+    domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragenter", setCardIdToLocalStorage);
     domManager.addEventListener(`.card[data-card-id="${cardId}"]`, "dragend", endDrag);
     domManager.addEventListener(
                 `.card-remove[data-card-id="${cardId}"]`,
@@ -122,18 +123,17 @@ async function endDrag(event) {
     const draggedCardId = event.target.dataset['cardId'];
     const previousElement = document.querySelector(`.card[data-card-id="${previousCardId}"]`);
 
-    if(previousElement && (previousElement.dataset['cardId'] !== draggedCardId)){
+    if(emptyColumn === "true"){
+        await dataHandler.updateCardStatusOnEmptyColumn(draggedCardId, columnBoardId, columnId)
+        localStorage.removeItem('columnBoardId')
+        localStorage.removeItem('columnId')
+        localStorage.removeItem('emptyColumn')
+    } else if(previousElement && (previousElement.dataset['cardId'] !== draggedCardId)){
         previousElement.after(event.target)
         const columnContent = event.target.parentElement.children;
         Object.values(columnContent).forEach(element => orderedCardsList.push(element.dataset['cardId']))
         await dataHandler.updateCardsStatus(orderedCardsList, columnBoardId, columnId);
     }
 
-    if(emptyColumn === "true"){
-        await dataHandler.updateCardStatusOnEmptyColumn(draggedCardId, columnBoardId, columnId)
-        localStorage.removeItem('columnBoardId')
-        localStorage.removeItem('columnId')
-        localStorage.removeItem('emptyColumn')
-    }
     localStorage.removeItem('dragged-item');
 }
