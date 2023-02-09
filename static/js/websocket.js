@@ -1,4 +1,4 @@
-import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
+import {boardsManager, loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
 import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
 import {cardsManager} from "./controller/cardsManager.js";
@@ -10,6 +10,7 @@ export function webSocket(){
         if (board.owner === username || board.type === 'public'){
             await loadBoard(board)
             await initDropAndColumns(board)
+            await boardsManager.modifyingColumns(document.querySelector(`.board[data-board-id="${board['id']}"]`))
         }
 
     });

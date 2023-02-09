@@ -133,6 +133,7 @@ async function endDrag(event) {
     const columnId = localStorage.getItem('columnId');
     const emptyColumn = localStorage.getItem('emptyColumn');
     const draggedCardId = event.target.dataset['cardId'];
+    const oldBoard = document.querySelector(`.card[data-card-id="${draggedCardId}"]`).dataset['cardBoardId']
     const previousElement = document.querySelector(`.card[data-card-id="${previousCardId}"]`);
 
     if(emptyColumn === "true"){
@@ -148,4 +149,8 @@ async function endDrag(event) {
     }
 
     localStorage.removeItem('dragged-item');
+    if (columnBoardId !== oldBoard){
+        socket.emit('update cards inside board', oldBoard);
+    }
+    socket.emit('update cards inside board', columnBoardId);
 }
