@@ -2,9 +2,6 @@ export let dataHandler = {
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
-    getBoard: async function (boardId) {
-        return await apiGet(`/api/boards/${boardId}`);
-    },
     getStatuses: async function (boardId) {
         return await apiGet(`/api/${boardId}/statuses`);
     },
@@ -119,9 +116,6 @@ async function apiDelete(url) {
     if (response.ok) {
         return response;
     }
-}
-
-async function apiPut(url) {
 }
 
 async function apiPatch(url, body) {

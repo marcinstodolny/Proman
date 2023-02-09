@@ -105,16 +105,16 @@ function createBoardButtonEvent(BoardSaveBtn, boardName, type){
         })
 }
 
-function showHideButtonHandler(clickEvent) {
+async function showHideButtonHandler(clickEvent) {
     clickEvent.target.classList.toggle("flip");
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
     if (board.classList.contains("hide-board")) {
-        cardsManager.loadCards(boardId);
+        await cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
     }
     else {
-        cardsManager.deleteCards(boardId);
+        await cardsManager.deleteCards(boardId);
         board.classList.add("hide-board");
     }
 }
@@ -127,17 +127,17 @@ function checkChildren(target) {
     }
 }
 
-export function renameBoard (board) {
+export async function renameBoard (board) {
     const titleId = board.target.dataset['boardTitleId'];
     let text = board.target.innerText;
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
-    input.addEventListener('keyup', function test(event) {
+    input.addEventListener('keyup', async function test(event) {
         if (event.code === "Enter" && event.target.value !== '' ) {
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
-            dataHandler.renameBoard(titleId, inputText);
+            await dataHandler.renameBoard(titleId, inputText);
             socket.emit('update title', {'boardId': boardId, 'titleId': titleId, 'inputText': inputText})
         } else if (event.code === "Escape") {
             event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`

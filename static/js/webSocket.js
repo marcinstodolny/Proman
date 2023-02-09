@@ -1,5 +1,4 @@
 import {boardsManager, loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
-import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
 import {cardsManager} from "./controller/cardsManager.js";
 
@@ -14,8 +13,8 @@ export function webSocket(){
             await boardsManager.modifyingColumns(document.querySelector(`.board[data-board-id="${board['id']}"]`))
         }
     });
-    socket.on('delete board', function(boardId) {
-        removeBoard(boardId)
+    socket.on('delete board', async function(boardId) {
+        await removeBoard(boardId)
     });
      socket.on('update title', async function(data) {
         let titleId = data['titleId']

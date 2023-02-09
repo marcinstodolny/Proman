@@ -11,7 +11,7 @@ export let cardsManager = {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
             domManager.addChild(`.board-column-content[data-board-id="${boardId}"][data-column-id="${statusId}"]`, content);
-            cardsManager.cardEvent(card)
+            await cardsManager.cardEvent(card)
         }
     },
     cardEvent: async function(card){

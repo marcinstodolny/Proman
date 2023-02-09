@@ -6,10 +6,11 @@ import password_management
 from util import json_response
 import mimetypes
 import queries
-
+import eventlet.wsgi
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 app.secret_key = b'DevTeamMDM'
@@ -99,12 +100,6 @@ def get_statuses_for_board(board_id: int):
     return queries.get_statuses(board_id)
 
 
-@app.route("/api/boards/<int:board_id>")
-@json_response
-def get_board_title(board_id: int):
-    return queries.get_board_title(board_id)
-
-
 @app.route("/api/delete-card/<card_id>", methods=['DELETE'])
 def delete_card(card_id):
     queries.delete_card(card_id)
@@ -171,8 +166,8 @@ def update_cards_order():
     ordered_cards = request.json[0]['ordered_cards_list']
     board_id = request.json[0]['board_id']
     column_id = request.json[0]['column_id']
-    for count, id in enumerate(ordered_cards):
-        queries.update_card_order(id, board_id, column_id, count)
+    for count, card_id in enumerate(ordered_cards):
+        queries.update_card_order(card_id, board_id, column_id, count)
     return Response('', status=204)
 
 
@@ -225,7 +220,7 @@ def logout():
 
 def main():
     # app.run(debug=True)
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    socketio.run(app)
 
     # Serving the favicon
     with app.app_context():

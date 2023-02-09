@@ -4,12 +4,12 @@ import{webSocket} from "./webSocket.js";
 
 async function init() {
     await boardsManager.loadBoards().then(boardsManager.modifyingColumns);
-    initModals();
-    boardsManager.creatingNewBoard();
+    await initModals();
+    await boardsManager.creatingNewBoard();
     document.getElementById('refresh').addEventListener("click", () =>{
        reloadBoardsAndCards()
     })
     webSocket()
 }
 
-init();
+await init();

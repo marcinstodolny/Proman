@@ -160,15 +160,6 @@ def get_last_status_id():
         """)
 
 
-def get_board_title(board_id):
-    return data_manager.execute_select(
-        """
-        SELECT title FROM statuses
-        WHERE id = %(board_id)s
-        """
-        , {'b_id': board_id})
-
-
 def create_new_board(board_title, board_type, username=''):
     return data_manager.execute_insert(
         """
