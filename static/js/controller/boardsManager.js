@@ -10,9 +10,10 @@ export let boardsManager = {
         for (let board of boards) {
             await loadBoard(board)
         }
+        await initDropdown();
     },
     creatingNewBoard: async function () {
-         await newBoardButtonCreation('public')
+        await newBoardButtonCreation('public')
         await newBoardButtonCreation('private')
     },
     modifyingColumns: function () {
@@ -54,11 +55,11 @@ export async function loadBoard(board){
     //     "click",
     //     deleteBoardButtonHandler
     // );
-    // domManager.addEventListener(
-    //     `.column-add[data-board-id="${board.id}"]`,
-    //     "click",
-    //     addColumnButtonHandler
-    // );
+    domManager.addEventListener(
+        `.column-add[data-board-id="${board.id}"]`,
+        "click",
+        addColumnButtonHandler
+    );
     domManager.addEventListener(
         `.board-toggle[data-board-id="${board.id}"]`,
         "click",
@@ -69,7 +70,7 @@ export async function loadBoard(board){
     //     'click',
     //     renameBoard
     // );
-    await initDropdown();
+
 }
 
 async function newBoardButtonCreation(type){
