@@ -46,6 +46,11 @@ def ping():
     emit('ping', broadcast=True)
 
 
+@socketio.on('update cards inside board')
+def update_cards_inside_board(data):
+    emit('update cards inside board', data, broadcast=True)
+
+
 @app.route("/api/boards")
 @json_response
 def get_boards():

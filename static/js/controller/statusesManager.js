@@ -2,6 +2,7 @@ import {addCard, cardsManager} from "./cardsManager.js";
 import {dataHandler} from "../data/dataHandler.js";
 import {domManager} from "../view/domManager.js";
 import {boardsManager} from "./boardsManager.js";
+import {socket} from "../websocket.js";
 
 export async function initDropdown() {
     let hamburgerButtons = document.querySelectorAll('.hamburger-btn');
@@ -100,6 +101,7 @@ export async function addColumnButtonHandler(clickEvent){
             cardsManager.cardEvent(card)
         }
     boardsManager.modifyingColumns()
+    // socket.emit('update columns inside board', {'boardId':boardId, 'statusId':statusId, 'newStatus':newStatus});
 }
 
 function createColumn(boardId, statusId, newStatus) {

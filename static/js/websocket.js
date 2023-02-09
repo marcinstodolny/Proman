@@ -1,6 +1,7 @@
 import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
 import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
+import {cardsManager} from "./controller/cardsManager.js";
 
 export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
@@ -31,4 +32,13 @@ export function webSocket(){
             boardTitle = await document.querySelector(`#${data['boardId']}`);
          boardTitle.addEventListener('click', renameBoard);
     }});
+     socket.on('update cards inside board', async function(boardId) {
+         let board = document.getElementById(`${boardId}`)
+         if (board !== null && !board.classList.contains('hide-board')) {
+             await board.querySelectorAll('.board-column-content').forEach(card => {
+                 card.innerHTML = ''
+             })
+             await cardsManager.loadCards(boardId);
+         }
+    });
 }

@@ -23,8 +23,9 @@ export let boardsManager = {
             element.addEventListener('drop', (event) => {
                 event.preventDefault()
                 const cardId = localStorage.getItem('dragged-item')
+                const previousCardId =localStorage.getItem('previousCardId')
                 const card = document.querySelector(`.card[data-card-id="${cardId}"]`)
-                if (card.classList.contains("card")) {
+                if (card !== null && card.classList.contains("card") && cardId !== previousCardId) {
                     element.appendChild(card)
                 }
             });
@@ -48,7 +49,6 @@ export let boardsManager = {
 
 export async function loadBoard(board){
     const statuses = await dataHandler.getStatuses(board.id);
-    console.log(statuses)
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
