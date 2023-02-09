@@ -2,6 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {addCard, cardsManager} from "./cardsManager.js";
+import {socket} from "../webSocket.js";
 
 export let boardsManager = {
     loadBoards: async function () {
@@ -50,16 +51,28 @@ export async function loadBoard(board){
             const content = boardBuilder(board, statuses);
             domManager.addChild("#root", content);
             domManager.addEventListener(
+                `.board-remove[data-board-id="${board.id}"]`,
+                "click",
+                deleteBoardButtonHandler
+            );
+            domManager.addEventListener(
                 `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
+            );
+            domManager.addEventListener(
+                `#board-title_${board.id}`,
+                'click',
+                renameBoard
             );
 }
 
 async function newBoardButtonCreation(type){
     const newBoardBtn = document.querySelector(`#new-${type}-board-btn`);
     const newBoardContainer = document.querySelector(`#new-${type}-board-input-container`);
+    const newBoardSaveBtn = document.querySelector(`#save-new-${type}-board`);
     toggleBoardNameInput(newBoardBtn, newBoardContainer)
+    await createBoardButtonEvent(newBoardSaveBtn, document.querySelector(`#new-${type}-board-input`), type)
 }
 
 function toggleBoardNameInput(boardBtn, BoardContainer){
@@ -71,6 +84,15 @@ function toggleBoardNameInput(boardBtn, BoardContainer){
                 BoardContainer.style.display = "block"
             }
         });
+}
+
+function createBoardButtonEvent(BoardSaveBtn, boardName, type){
+    BoardSaveBtn.addEventListener('click', async () => {
+            if (boardName.value) {
+                await dataHandler.createNewBoard(boardName.value, type)
+                socket.emit('create board');
+            }
+        })
 }
 
 function showHideButtonHandler(clickEvent) {
@@ -96,19 +118,18 @@ function checkChildren(target) {
     }
 }
 
-function renameBoard (board) {
+export function renameBoard (board) {
     const titleId = board.target.dataset['boardTitleId'];
     let text = board.target.innerText;
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
     input.addEventListener('keyup', function test(event) {
-        if (event.code === "Enter" ) {
+        if (event.code === "Enter" && event.target.value !== '' ) {
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
-            const boardTitle = document.querySelector(`#${boardId}`);
             dataHandler.renameBoard(titleId, inputText);
-            boardTitle.addEventListener('click', renameBoard);
+            socket.emit('update title', {'boardId': boardId, 'titleId': titleId, 'inputText': inputText})
         } else if (event.code === "Escape") {
             event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
@@ -116,6 +137,14 @@ function renameBoard (board) {
         }
     })
 }
+
+
+async function deleteBoardButtonHandler(clickEvent) {
+    const board = clickEvent.target;
+    const boardId = board.dataset.boardId
+    socket.emit('delete board', boardId);
+}
+
 
 export async function removeBoard(boardId){
     const board = document.querySelector(`[data-board-id="${boardId}"]`)
