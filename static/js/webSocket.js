@@ -1,7 +1,8 @@
 import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
 
-export let socket = io.connect('http://localhost:5000/');
+export let socket = io.connect('https://proman.herokuapp.com/');
+// export let socket = io.connect('http://localhost:5000/');
 export function webSocket(){
     setInterval(() => {
       const start = Date.now();
