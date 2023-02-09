@@ -49,35 +49,33 @@ export async function loadBoard(board){
     const boardBuilder = htmlFactory(htmlTemplates.board, statuses);
     const content = boardBuilder(board, statuses);
     domManager.addChild("#root", content);
-    domManager.addEventListener(
-        `.board-remove[data-board-id="${board.id}"]`,
-        "click",
-        deleteBoardButtonHandler
-    );
-    domManager.addEventListener(
-        `.column-add[data-board-id="${board.id}"]`,
-        "click",
-        addColumnButtonHandler
-    );
+    // domManager.addEventListener(
+    //     `.board-remove[data-board-id="${board.id}"]`,
+    //     "click",
+    //     deleteBoardButtonHandler
+    // );
+    // domManager.addEventListener(
+    //     `.column-add[data-board-id="${board.id}"]`,
+    //     "click",
+    //     addColumnButtonHandler
+    // );
     domManager.addEventListener(
         `.board-toggle[data-board-id="${board.id}"]`,
         "click",
         showHideButtonHandler
     );
-    domManager.addEventListener(
-        `#board-title_${board.id}`,
-        'click',
-        renameBoard
-    );
+    // domManager.addEventListener(
+    //     `#board-title_${board.id}`,
+    //     'click',
+    //     renameBoard
+    // );
     await initDropdown();
 }
 
 async function newBoardButtonCreation(type){
     const newBoardBtn = document.querySelector(`#new-${type}-board-btn`);
     const newBoardContainer = document.querySelector(`#new-${type}-board-input-container`);
-    const newBoardSaveBtn = document.querySelector(`#save-new-${type}-board`);
     toggleBoardNameInput(newBoardBtn, newBoardContainer)
-    await createBoardButtonEvent(newBoardSaveBtn, document.querySelector(`#new-${type}-board-input`), type)
 }
 
 function toggleBoardNameInput(boardBtn, BoardContainer){
@@ -91,24 +89,16 @@ function toggleBoardNameInput(boardBtn, BoardContainer){
         });
 }
 
-async function createBoardButtonEvent(BoardSaveBtn, boardName, type){
-    BoardSaveBtn.addEventListener('click', () => {
-            if (boardName.value) {
-                dataHandler.createNewBoard(boardName.value, type)
-            }
-        })
-}
-
-async function showHideButtonHandler(clickEvent) {
+function showHideButtonHandler(clickEvent) {
     clickEvent.target.classList.toggle("flip");
     const boardId = checkChildren(clickEvent.target);
     let board = document.getElementById(boardId);
     if (board.classList.contains("hide-board")) {
-        await cardsManager.loadCards(boardId);
+        cardsManager.loadCards(boardId);
         board.classList.remove("hide-board");
     }
     else {
-        await cardsManager.deleteCards(boardId);
+        cardsManager.deleteCards(boardId);
         board.classList.add("hide-board");
     }
 }
@@ -127,12 +117,12 @@ function renameBoard (board) {
     const boardId = board.target.id;
     board.target.outerHTML = `<input class="board-title" id="input-${boardId}" data-board-title-id="${titleId}" value="${text}">`
     const input = document.querySelector(`#input-${boardId}`)
-    input.addEventListener('keyup', async function test(event) {
+    input.addEventListener('keyup', function test(event) {
         if (event.code === "Enter" ) {
             const inputText = event.target.value;
             event.target.outerHTML = `<span class="board-title" id="${boardId}">${inputText}</span>`
             const boardTitle = document.querySelector(`#${boardId}`);
-            await dataHandler.renameBoard(titleId, inputText);
+            dataHandler.renameBoard(titleId, inputText);
             boardTitle.addEventListener('click', renameBoard);
         } else if (event.code === "Escape") {
             event.target.outerHTML = `<span class="board-title" id="${boardId}" data-board-title-id="${titleId}">${text}</span>`
@@ -140,12 +130,6 @@ function renameBoard (board) {
             boardTitle.addEventListener('click', renameBoard);
         }
     })
-}
-
-async function deleteBoardButtonHandler(clickEvent) {
-    const board = clickEvent.target;
-    const boardId = board.dataset.boardId
-    io.connect('http://localhost:5000/').emit('delete board', boardId);
 }
 
 export async function removeBoard(boardId){

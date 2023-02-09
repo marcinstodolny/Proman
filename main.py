@@ -35,6 +35,16 @@ def delete_board(board_id):
     emit('delete board', board_id, broadcast=True)
 
 
+@socketio.on('update title')
+def update_title(data):
+    emit('update title', data, broadcast=True)
+
+
+# na ten moment jest też ping by widać było czy wszystko działa dobrze i się nie tnie
+@socketio.on('ping')
+def ping():
+    emit('ping', broadcast=True)
+
 
 @app.route("/api/boards")
 @json_response
