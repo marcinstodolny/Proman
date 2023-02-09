@@ -23,8 +23,9 @@ export let boardsManager = {
             element.addEventListener('drop', (event) => {
                 event.preventDefault()
                 const cardId = localStorage.getItem('dragged-item')
+                const previousCardId =localStorage.getItem('previousCardId')
                 const card = document.querySelector(`.card[data-card-id="${cardId}"]`)
-                if (card.classList.contains("card")) {
+                if (card !== null && card.classList.contains("card") && cardId !== previousCardId) {
                     element.appendChild(card)
                 }
             });

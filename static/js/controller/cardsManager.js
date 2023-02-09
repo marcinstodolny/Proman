@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {socket} from "../websocket.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -86,21 +87,29 @@ async function cardRenaming(event, cardId=null){
             `<input id="new-card-input" class="input" placeholder="${oldCardName}">`);
     }
     const inputElement = document.getElementById("new-card-input");
-    function handleCardRename(){
+    function handleCardRename(emit=null, blur=null){
         if (inputElement.value) {
             const newCardName = inputElement.value;
             targetElement.innerText = newCardName;
             dataHandler.renameCard(cardId, newCardName);
+            if (emit === true){
+                socket.emit('update cards inside board', targetElement.parentElement.dataset.cardBoardId);
+            }
         }
         else {
             targetElement.innerText = oldCardName;
+            socket.emit('update cards inside board', targetElement.parentElement.dataset.cardBoardId);
         }
-        document.getElementById("new-card-input").remove();
+        if (blur === true) {
+            document.getElementById("new-card-input").remove();
+        }
     }
-    inputElement.addEventListener("blur", handleCardRename);
+    inputElement.addEventListener("blur", (event) => {
+        handleCardRename(null, true)
+    });
     inputElement.addEventListener("keyup", (event) => {
         if (event.key === "Enter") {
-            handleCardRename();
+            handleCardRename(true);
         }
     });
     inputElement.focus();

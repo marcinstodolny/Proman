@@ -1,15 +1,10 @@
 import {loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
+import {dataHandler} from "./data/dataHandler.js";
 import {initDropAndColumns} from "./controller/statusesManager.js";
+import {cardsManager} from "./controller/cardsManager.js";
 
 export let socket = io.connect('https://proman.herokuapp.com/');
 export function webSocket(){
-    setInterval(() => {
-      const start = Date.now();
-      socket.emit("ping", () => {
-        const duration = Date.now() - start;
-        // console.log(duration);
-      });
-    }, 1000);
     socket.on('create board', async function(board) {
         let username = document.querySelector('#current_username').innerText
         if (board.owner === username || board.type === 'public'){
@@ -28,4 +23,13 @@ export function webSocket(){
             boardTitle = await document.querySelector(`#${data['boardId']}`);
          boardTitle.addEventListener('click', renameBoard);
     }});
+     socket.on('update cards inside board', async function(boardId) {
+         let board = document.getElementById(`${boardId}`)
+         if (board !== null && !board.classList.contains('hide-board')) {
+             await board.querySelectorAll('.board-column-content').forEach(card => {
+                 card.innerHTML = ''
+             })
+             await cardsManager.loadCards(boardId);
+         }
+    });
 }

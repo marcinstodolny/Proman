@@ -63,15 +63,31 @@ def get_cards_for_board(board_id):
 
 
 def create_new_card(board_id, status_id, card_title):
+    if get_last_order(board_id, status_id):
+        order = get_last_order(board_id, status_id)[0]['card_order'] + 1
+    else:
+        order = 0
     new_card = data_manager.execute_insert(
         """
         INSERT INTO cards 
         (board_id, status_id, title, card_order)
-        VALUES (%(b_id)s, %(s_id)s, %(title)s, 0)
+        VALUES (%(b_id)s, %(s_id)s, %(title)s, %(order)s)
         """
-        , {'b_id': board_id, 's_id': status_id, 'title': card_title})
+        , {'b_id': board_id, 's_id': status_id, 'title': card_title, 'order': order})
 
     return new_card
+
+
+def get_last_order(board_id, status_id):
+    return data_manager.execute_select(
+        """
+        SELECT card_order 
+        FROM cards
+        WHERE board_id = %(b_id)s AND status_id = %(s_id)s
+        ORDER BY card_order DESC
+        LIMIT 1
+        """
+        , {'b_id': board_id, 's_id': status_id})
 
 
 def get_last_card():
