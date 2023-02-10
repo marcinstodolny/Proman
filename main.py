@@ -49,9 +49,11 @@ def update_cards_inside_board(data):
 def update_columns_inside_board(data):
     emit('update columns inside board', data, broadcast=True)
 
+
 @socketio.on('rename columns inside board')
 def update_columns_inside_board(data):
     emit('rename columns inside board', data, broadcast=True)
+
 
 @socketio.on('remove status')
 def remove_status(data):

@@ -1,6 +1,6 @@
 import {boardsManager, loadBoard, removeBoard, renameBoard} from "./controller/boardsManager.js";
 import {dataHandler} from "./data/dataHandler.js";
-import {addColumn, createColumn, initDropAndColumns} from "./controller/statusesManager.js";
+import {createColumn, initDropAndColumns} from "./controller/statusesManager.js";
 import {cardsManager} from "./controller/cardsManager.js";
 
 export let socket = io.connect('http://localhost:5000/');
@@ -44,6 +44,7 @@ export function webSocket(){
             const content = createColumn(boardId, data['statusId'], data['newStatus']);
             board.innerHTML += content;
             await initDropAndColumns({'id': boardId})
+             boardsManager.modifyingColumns()
              if (!board.classList.contains('hide-board')){
                  const cards = await dataHandler.getCardsByBoardId(boardId);
                  for (let card of cards) {
