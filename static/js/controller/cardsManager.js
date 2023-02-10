@@ -120,6 +120,7 @@ async function deleteButtonHandler(clickEvent) {
     let cardId = card.parentElement.dataset.cardId;
     card.parentElement.remove();
     await dataHandler.deleteCard(cardId);
+    socket.emit('update cards inside board', card.parentElement.dataset.cardBoardId);
 }
 
 function startDrag(event) {

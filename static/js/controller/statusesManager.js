@@ -30,7 +30,7 @@ export async function initDrop(buttons, optionsMenu){
         });
         getActionButton("renameColumn", columnId).addEventListener('click', () => {
             options.classList.remove('show');
-            columnRenaming(columnId);
+            columnRenaming(columnId, true);
         });
         getActionButton("deleteColumn", columnId).addEventListener('click', () => {
             options.classList.remove('show');
@@ -50,39 +50,48 @@ function getActionButton(actionName, columnId){
     return document.getElementById(actionName+columnId);
 }
 
-async function columnRenaming(statusId){
+async function columnRenaming(statusId, rename=false){
     let targetElement = document.querySelector(`.status-title[data-status-id="${statusId}"]`);
     const oldStatus = targetElement.innerText;
     targetElement.innerText = "";
     domManager.addChild(`.status-title[data-status-id="${statusId}"]`,
         `<input id="new-status-input" class="input" value="${oldStatus}" placeholder="${oldStatus}">`);
     const inputElement = document.getElementById("new-status-input");
-
-    inputElement.addEventListener("blur", handleColumnRename);
+    inputElement.addEventListener("blur", (event) => {
+        handleColumnRename(true, rename)
+    });
     inputElement.addEventListener("keyup", (event) => {
         if (event.key === "Enter") {
-            handleColumnRename();
+            handleColumnRename(false, rename);
         }
     });
     inputElement.focus();
-    function handleColumnRename(){
+    function handleColumnRename(emit=false, rename){
+        let boardId = targetElement.dataset.boardId
         if (inputElement.value) {
+
             const newStatus = inputElement.value;
             targetElement.innerText = newStatus;
             dataHandler.renameStatus(statusId, newStatus);
+            if (rename && emit !== false){
+                socket.emit('rename columns inside board', {'statusId': statusId, 'newStatus': newStatus, 'rename': rename});
+            } else if (emit !== false){
+                socket.emit('update columns inside board', {'boardId': boardId, 'statusId': statusId, 'newStatus': newStatus, 'rename': rename});
+            }
         }
         else {
             targetElement.innerText = oldStatus;
-        }
+            if (!rename && emit !== false){
+                socket.emit('update columns inside board', {'boardId': boardId, 'statusId': statusId, 'newStatus': oldStatus,'rename': rename});
+        }}
         inputElement.remove();
+
     }
 }
 
 async function statusRemoval(columnId){
     await dataHandler.deleteStatus(columnId);
-    let targetElement = document.querySelector(`.board-column[data-status-id="${columnId}"]`);
-    targetElement.innerHTML = "";
-    targetElement.remove();
+    socket.emit('remove status', columnId)
 }
 
 export async function addColumnButtonHandler(clickEvent){
@@ -91,6 +100,10 @@ export async function addColumnButtonHandler(clickEvent){
     const newStatus = "new card";
         await dataHandler.createStatus(boardId, newStatus)
     const statusId = await dataHandler.getLastStatusId();
+    await addColumn(boardId,statusId, newStatus)
+}
+
+export async function addColumn(boardId,statusId, newStatus){
     const board = document.getElementById(`${boardId}`);
     const content = createColumn(boardId, statusId, newStatus);
     board.innerHTML += content;
@@ -98,17 +111,15 @@ export async function addColumnButtonHandler(clickEvent){
     await columnRenaming(statusId);
     const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let card of cards) {
-            cardsManager.cardEvent(card)
+            await cardsManager.cardEvent(card)
         }
-    boardsManager.modifyingColumns()
-    // socket.emit('update columns inside board', {'boardId':boardId, 'statusId':statusId, 'newStatus':newStatus});
+    await boardsManager.modifyingColumns()
 }
-
-function createColumn(boardId, statusId, newStatus) {
+export function createColumn(boardId, statusId, newStatus) {
     return `<div class="board-column" data-status-id="${statusId}">
             <div class="board-column-title">
                 <div class="status">
-                    <div class="status-title" data-status-id="${statusId}">${newStatus}</div>
+                    <div class="status-title" data-status-id="${statusId}" data-board-id="${boardId}">${newStatus}</div>
                     <div class="status-options">
                         <div class="hamburger-btn" id="btn-${boardId}" data-status-id="${statusId}">
                             <div class="hamburger-line"></div>

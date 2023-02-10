@@ -55,7 +55,7 @@ CREATE TABLE users (
 --- insert data
 ---
 
-INSERT INTO statuses(title, board_id) VALUES ('new', 1);
+INSERT INTO statuses(title, board_id) VALUES ('To do', 1);
 INSERT INTO statuses(title, board_id) VALUES ('in progress', 1);
 INSERT INTO statuses(title, board_id) VALUES ('testing', 1);
 INSERT INTO statuses(title, board_id) VALUES ('done', 1);
@@ -66,8 +66,8 @@ INSERT INTO statuses(title, board_id) VALUES ('done', 2);
 INSERT INTO statuses(title, board_id) VALUES ('new', 3);
 INSERT INTO statuses(title, board_id) VALUES ('in progress', 3);
 INSERT INTO statuses(title, board_id) VALUES ('testing', 3);
+INSERT INTO statuses(title, board_id) VALUES ('debugging', 3);
 INSERT INTO statuses(title, board_id) VALUES ('done', 3);
-INSERT INTO statuses(title, board_id) VALUES ('additional', 3);
 INSERT INTO statuses(title, board_id) VALUES ('new', 4);
 INSERT INTO statuses(title, board_id) VALUES ('in progress', 4);
 INSERT INTO statuses(title, board_id) VALUES ('testing', 4);
