@@ -1,12 +1,12 @@
-# Team-Sync
+# Proman
 
 ## Introduction
 
-Welcome to the Team-Sync project! Team-Sync is a one-page project management tool inspired by Trello, designed to simplify project management and collaboration. This Readme provides an overview of the project, its features, technologies used, and the progress made during the first two sprints.
+Welcome to the Proman project! Proman is a one-page project management tool inspired by Trello, designed to simplify project management and collaboration. This Readme provides an overview of the project, its features, technologies used, and the progress made during the first two sprints.
 
 ## Project Overview
 
-Team-Sync is aimed at providing a user-friendly, intuitive interface for managing projects and tasks. It allows users to create, delete, and organize boards, move cards between columns, and offers real-time collaboration through live synchronization.
+Proman is aimed at providing a user-friendly, intuitive interface for managing projects and tasks. It allows users to create, delete, and organize boards, move cards between columns, and offers real-time collaboration through live synchronization.
 
 ## Sprints
 
@@ -36,7 +36,7 @@ During this sprint, we focused on the following:
 
 ## Getting Started
 
-To get started with Team-Sync, follow these steps:
+To get started with Proman, follow these steps:
 
 1. Clone the repository from GitHub.
 2. Set up a Python virtual environment.
@@ -46,7 +46,7 @@ To get started with Team-Sync, follow these steps:
 
 ## Technologies and Tools
 
-Team-Sync is built using the following technologies and tools:
+Proman is built using the following technologies and tools:
 
 - ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 - ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
